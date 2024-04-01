@@ -1,9 +1,9 @@
-object Form1: TForm1
+object frmLogin: TfrmLogin
   Left = 0
   Top = 0
-  Caption = 'Form1'
-  ClientHeight = 364
-  ClientWidth = 354
+  Caption = 'Login to PayRates'
+  ClientHeight = 368
+  ClientWidth = 234
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,6 +11,7 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object lblLogin: TLabel
@@ -30,9 +31,9 @@ object Form1: TForm1
   object lblEnterLoginName: TLabel
     Left = 8
     Top = 134
-    Width = 80
+    Width = 78
     Height = 13
-    Caption = 'Enter your name'
+    Caption = 'Enter your email'
   end
   object lblEnterLoginPassword: TLabel
     Left = 8
@@ -41,25 +42,39 @@ object Form1: TForm1
     Height = 13
     Caption = 'Enter your password'
   end
-  object edtLoginName: TEdit
+  object Label1: TLabel
+    Left = 96
+    Top = 289
+    Width = 61
+    Height = 53
+    Caption = 'OR'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -27
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold, fsUnderline]
+    GlowSize = 10
+    ParentFont = False
+  end
+  object edtLoginEmail: TEdit
     Left = 8
     Top = 153
-    Width = 209
+    Width = 218
     Height = 21
     TabOrder = 0
   end
   object edtLoginPassword: TEdit
     Left = 8
     Top = 208
-    Width = 209
+    Width = 218
     Height = 21
     PasswordChar = '*'
     TabOrder = 1
   end
   object btnLogin: TButton
-    Left = 16
-    Top = 266
-    Width = 201
+    Left = 8
+    Top = 250
+    Width = 218
     Height = 33
     Caption = 'LOGIN'
     Font.Charset = DEFAULT_CHARSET
@@ -73,7 +88,7 @@ object Form1: TForm1
   object pnlHeading: TPanel
     Left = 0
     Top = -4
-    Width = 353
+    Width = 233
     Height = 73
     Caption = 'PayRate'
     Color = clTeal
@@ -87,5 +102,19 @@ object Form1: TForm1
     ParentShowHint = False
     ShowHint = False
     TabOrder = 3
+  end
+  object btnSignUp: TButton
+    Left = 8
+    Top = 327
+    Width = 218
+    Height = 33
+    Caption = 'Sign Up'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 4
   end
 end

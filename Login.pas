@@ -4,17 +4,20 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, StdCtrls;
+  Dialogs, ExtCtrls, StdCtrls, ShellAPI, Globals;
 
 type
-  TForm1 = class(TForm)
+  TfrmLogin = class(TForm)
     lblLogin: TLabel;
     lblEnterLoginName: TLabel;
     lblEnterLoginPassword: TLabel;
-    edtLoginName: TEdit;
+    edtLoginEmail: TEdit;
     edtLoginPassword: TEdit;
     btnLogin: TButton;
     pnlHeading: TPanel;
+    btnSignUp: TButton;
+    Label1: TLabel;
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -22,10 +25,18 @@ type
   end;
 
 var
-  Form1: TForm1;
+  frmLogin: TfrmLogin;
+  objGlobals : TGlobals;
 
 implementation
 
 {$R *.dfm}
+
+
+
+procedure TfrmLogin.FormCreate(Sender: TObject);
+begin
+  objGlobals := TGlobals.create
+end;
 
 end.

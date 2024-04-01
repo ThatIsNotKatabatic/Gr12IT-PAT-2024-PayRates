@@ -44,15 +44,19 @@
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
 			<DCCReference Include="Login.pas">
-				<Form>Form1</Form>
+				<Form>frmLogin</Form>
 			</DCCReference>
 			<DCCReference Include="Signup.pas">
-				<Form>Form2</Form>
+				<Form>frmSignUp</Form>
 			</DCCReference>
 			<DCCReference Include="Main_DB.pas">
 				<Form>DataModule3</Form>
 				<DesignClass>TDataModule</DesignClass>
 			</DCCReference>
+			<DCCReference Include="EmployeeView.pas">
+				<Form>frmEmployeeView</Form>
+			</DCCReference>
+			<DCCReference Include="Globals.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
