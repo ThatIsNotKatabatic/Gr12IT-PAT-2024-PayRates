@@ -71,6 +71,7 @@ object frmSignUp: TfrmSignUp
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 1
+    OnClick = btnSignUpClick
   end
   object pnlHeading: TPanel
     Left = 0

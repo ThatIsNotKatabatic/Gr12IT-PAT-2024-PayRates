@@ -84,6 +84,7 @@ object frmLogin: TfrmLogin
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 2
+    OnClick = btnLoginClick
   end
   object pnlHeading: TPanel
     Left = 0
@@ -116,5 +117,6 @@ object frmLogin: TfrmLogin
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 4
+    OnClick = btnSignUpClick
   end
 end
