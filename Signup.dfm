@@ -59,9 +59,9 @@ object frmSignUp: TfrmSignUp
     TabOrder = 0
   end
   object btnSignUp: TButton
-    Left = 59
+    Left = 8
     Top = 409
-    Width = 105
+    Width = 220
     Height = 33
     Caption = 'SIGN UP'
     Font.Charset = DEFAULT_CHARSET
@@ -80,10 +80,10 @@ object frmSignUp: TfrmSignUp
     Height = 73
     Caption = 'SignUp'
     Color = clTeal
-    Font.Charset = DEFAULT_CHARSET
+    Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
     Font.Height = -60
-    Font.Name = 'zerpixl'
+    Font.Name = 'Consolas'
     Font.Style = []
     ParentBackground = False
     ParentFont = False
@@ -96,7 +96,6 @@ object frmSignUp: TfrmSignUp
     Top = 319
     Width = 220
     Height = 21
-    PasswordChar = '*'
     TabOrder = 3
   end
   object edtFullName: TEdit

@@ -60,6 +60,9 @@
 			<DCCReference Include="OwnerView.pas">
 				<Form>frmOwnerView</Form>
 			</DCCReference>
+			<DCCReference Include="MakePayment.pas">
+				<Form>frmMakePayment</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

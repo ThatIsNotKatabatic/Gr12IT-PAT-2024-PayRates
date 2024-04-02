@@ -1,4 +1,4 @@
-unit main_DB;
+unit mainDB;
 
 interface
 
@@ -6,13 +6,10 @@ uses
   SysUtils, Classes, DB, ADODB;
 
 type
-  TmainDB = class(TDataModule)
-    employeeDatasource: TDataSource;
-    mainDBConnection: TADOConnection;
+  TdbmMainDB = class(TDataModule)
+    ADOConnection1: TADOConnection;
     tblEmployee: TADOTable;
     tblOwners: TADOTable;
-    tblBuilding: TADOTable;
-    tblServices: TADOTable;
   private
     { Private declarations }
   public
@@ -20,7 +17,7 @@ type
   end;
 
 var
-  dbmMainDB: TmainDB;
+  dbmMainDB: TdbmMainDB;
 
 implementation
 

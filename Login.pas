@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, StdCtrls, ShellAPI, Globals, Signup, Main_DB,
-  EmployeeView, OwnerView;
+  Dialogs, ExtCtrls, StdCtrls, ShellAPI, Globals, Signup, MainDB,
+  EmployeeView, OwnerView, ADODB;
 
 type
   TfrmLogin = class(TForm)
@@ -22,7 +22,7 @@ type
     procedure btnSignUpClick(Sender: TObject);
     procedure btnLoginClick(Sender: TObject);
     procedure Login;
-    function checkPassword(table: string): boolean;
+    function checkPassword(table: TADOTable): boolean;
   private
     { Private declarations }
   public
@@ -52,16 +52,17 @@ begin
     begin
       if tblEmployee['EmailAddress'] = edtLoginEmail.Text then
       begin
-        if checkPassword('Employee') = true then
+        if checkPassword(tblEmployee) = true then
         begin
           // login was successful
           frmEmployeeView.Show;
           Hide;
+          Exit();
         end
         else
         begin
           ShowMessage('Password wrong');
-          exit();
+          Exit();
         end;
       end;
       tblEmployee.Next;
@@ -72,16 +73,17 @@ begin
     begin
       if tblOwners['EmailAddress'] = edtLoginEmail.Text then
       begin
-        if checkPassword('Owner') = true then
+        if checkPassword(tblOwners) = true then
         begin
           // login was successful
           frmOwnerView.Show;
           Hide;
+          Exit();
         end
         else
         begin
           ShowMessage('Password wrong');
-          exit();
+          Exit();
         end;
       end;
       tblOwners.Next;
@@ -90,32 +92,19 @@ begin
   end;
 end;
 
-function TfrmLogin.checkPassword(table: string): boolean;
+function TfrmLogin.checkPassword(table: TAdoTable): boolean;
 begin
-  if table = 'Employee' then
-  begin
-    if dbmMainDB.tblEmployee['Password'] = edtLoginPassword.Text then
+  // test new check password
+  if table['Password'] = edtLoginPassword.Text then
     begin
       Result := true;
-      exit();
+      Exit();
     end
     else
     begin
       Result := false;
-      exit();
+      Exit();
     end;
-  end;
-  if dbmMainDB.tblOwners['Password'] = edtLoginPassword.Text then
-  begin
-    Result := true;
-    exit();
-  end
-  else
-  begin
-    Result := false;
-    exit();
-  end;
-
 end;
 
 procedure TfrmLogin.btnSignUpClick(Sender: TObject);

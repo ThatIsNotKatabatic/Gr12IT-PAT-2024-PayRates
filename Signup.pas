@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, StdCtrls, ShellAPI, Math, Globals, Main_DB;
+  Dialogs, ExtCtrls, StdCtrls, ShellAPI, Math, Globals, MainDB;
 
 type
   TfrmSignUp = class(TForm)
@@ -41,6 +41,8 @@ implementation
 {$R *.dfm}
 
 procedure TfrmSignUp.btnSignUpClick(Sender: TObject);
+var
+  firstName, surname, phoneNumber: string;
 begin
   // check if verification code is correct
   if edtValidationCode.Text <> verificationCode then
@@ -55,10 +57,9 @@ begin
     exit();
   end;
   // check phone number
-  if (length(edtPhoneNumber.Text) <> 9) OR (length(edtPhoneNumber.Text) <> 10)
-    then
+  if length(edtPhoneNumber.Text) <> 10 then
   begin
-    ShowMessage('Phone number doesnt have enough numbers.');
+    ShowMessage('Phone number is not valid');
     exit();
   end;
   // check password
@@ -68,19 +69,22 @@ begin
     exit();
   end;
 
+  firstName := copy(edtFullName.Text, 1, pos(' ', edtFullName.Text) - 1);
+  surname := copy(edtFullName.Text, pos(' ', edtFullName.Text) + 1);
+  phoneNumber := edtPhoneNumber.Text;
+  delete(phoneNumber, 1, 1);
+
   // commit to  database
   with dbmMainDB do
   begin
     tblOwners.Append;
     tblOwners['EmailAddress'] := edtEmailAddress.Text;
-    tblOwners['PhoneNumber'] := edtPhoneNumber.Text;
-    tblOwners['FirstName'] := copy(edtFullName.Text, 1,
-      pos(' ', edtFullName.Text) - 1);
-    tblOwners['LastName'] := copy(edtFullName.Text,
-      pos(' ', edtFullName.Text) + 1);
+    tblOwners['PhoneNumber'] := phoneNumber;
+    tblOwners['FirstName'] := firstName;
+    tblOwners['LastName'] := surname;
     tblOwners['Password'] := edtPassword.Text;
-    tblOwners['OwnerID'] := copy(tblOwners['FirstName'], 1, 3) + copy
-      (tblOwners['FirstName'], 1, 2) + inttostr(RandomRange(100, 999));
+    tblOwners['OwnerID'] := copy(firstName, 1, 3) + copy
+      (surname, 1, 2) + inttostr(RandomRange(100, 999));
     tblOwners.Post;
   end;
   ShowMessage('Sign Up successful. You may now login on the homepage.');
@@ -91,25 +95,26 @@ end;
 
 procedure TfrmSignUp.btnValidateClick(Sender: TObject);
 begin
-  // TODO: do a check to make sure that email isn't already in database
+
   if searchDatabase(edtEmailAddress.Text) = true then
   begin
     ShowMessage('Email address already exists. Please enter another one');
     exit();
   end;
   verificationCode := inttostr(RandomRange(10000, 99999));
+  btnValidate.Caption := 'Sending';
   objGlobals.sendEmail('Validation Code for PayRates App',
     'validation code is: ' + verificationCode, edtEmailAddress.Text);
+  btnValidate.Caption := 'Sent';
 end;
 
 procedure TfrmSignUp.FormCreate(Sender: TObject);
 begin
   objGlobals := TGlobals.create;
+  verificationCode := '1742';
 end;
 
 function TfrmSignUp.searchDatabase(value: string): boolean;
-var
-  i: integer;
 begin
   // does a search through the database for a specific field and value
   // returns true if a match was found
@@ -124,7 +129,6 @@ begin
         exit();
       end;
       tblOwners.Next;
-      inc(i);
     end;
   end;
   Result := False;
