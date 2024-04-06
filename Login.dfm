@@ -17,13 +17,13 @@ object frmLogin: TfrmLogin
   object lblLogin: TLabel
     Left = 8
     Top = 75
-    Width = 94
-    Height = 53
+    Width = 95
+    Height = 52
     Caption = 'Login'
-    Font.Charset = DEFAULT_CHARSET
+    Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
     Font.Height = -27
-    Font.Name = 'Tahoma'
+    Font.Name = 'Consolas'
     Font.Style = [fsBold, fsUnderline]
     GlowSize = 10
     ParentFont = False
@@ -43,15 +43,15 @@ object frmLogin: TfrmLogin
     Caption = 'Enter your password'
   end
   object Label1: TLabel
-    Left = 96
+    Left = 104
     Top = 289
-    Width = 61
-    Height = 53
+    Width = 50
+    Height = 52
     Caption = 'OR'
-    Font.Charset = DEFAULT_CHARSET
+    Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
     Font.Height = -27
-    Font.Name = 'Tahoma'
+    Font.Name = 'Consolas'
     Font.Style = [fsBold, fsUnderline]
     GlowSize = 10
     ParentFont = False
@@ -93,10 +93,10 @@ object frmLogin: TfrmLogin
     Height = 73
     Caption = 'PayRate'
     Color = clTeal
-    Font.Charset = DEFAULT_CHARSET
+    Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
     Font.Height = -60
-    Font.Name = 'zerpixl'
+    Font.Name = 'Consolas'
     Font.Style = []
     ParentBackground = False
     ParentFont = False

@@ -3,7 +3,7 @@ object frmOwnerView: TfrmOwnerView
   Top = 0
   Caption = 'Pay Rates Owner Signed In'
   ClientHeight = 446
-  ClientWidth = 590
+  ClientWidth = 660
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -58,7 +58,7 @@ object frmOwnerView: TfrmOwnerView
   object pnlHeading: TPanel
     Left = -2
     Top = -9
-    Width = 595
+    Width = 664
     Height = 66
     Caption = 'PayRate'
     Color = clTeal
@@ -80,19 +80,6 @@ object frmOwnerView: TfrmOwnerView
     Height = 129
     TabOrder = 1
   end
-  object redHistory: TRichEdit
-    Left = 312
-    Top = 96
-    Width = 270
-    Height = 342
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 2
-  end
   object btnMakePay: TButton
     Left = 8
     Top = 399
@@ -105,14 +92,14 @@ object frmOwnerView: TfrmOwnerView
     Font.Name = 'Consolas'
     Font.Style = [fsBold]
     ParentFont = False
-    TabOrder = 3
+    TabOrder = 2
   end
   object grpMonthlyDue: TGroupBox
     Left = 8
     Top = 264
     Width = 298
     Height = 129
-    TabOrder = 4
+    TabOrder = 3
     object Image1: TImage
       Left = 10
       Top = 58
@@ -501,5 +488,17 @@ object frmOwnerView: TfrmOwnerView
       ParentFont = False
       TabOrder = 2
     end
+  end
+  object DBGrid1: TDBGrid
+    Left = 312
+    Top = 104
+    Width = 339
+    Height = 334
+    TabOrder = 4
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
   end
 end

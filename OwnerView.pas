@@ -4,11 +4,10 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, pngimage, Owner;
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, pngimage, Owner, Grids, DBGrids;
 
 type
   TfrmOwnerView = class(TForm)
-    redHistory: TRichEdit;
     pnlHeading: TPanel;
     btnMakePay: TButton;
     grpDue: TGroupBox;
@@ -22,6 +21,7 @@ type
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
+    DBGrid1: TDBGrid;
   private
     { Private declarations }
   public

@@ -10,6 +10,8 @@ type
     ADOConnection1: TADOConnection;
     tblEmployee: TADOTable;
     tblOwners: TADOTable;
+    tblBuildings: TADOTable;
+    tblServices: TADOTable;
   private
     { Private declarations }
   public

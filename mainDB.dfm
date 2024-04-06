@@ -1,6 +1,6 @@
 object dbmMainDB: TdbmMainDB
   OldCreateOrder = False
-  Height = 282
+  Height = 311
   Width = 446
   object ADOConnection1: TADOConnection
     Connected = True
@@ -28,5 +28,21 @@ object dbmMainDB: TdbmMainDB
     TableName = 'Owner'
     Left = 136
     Top = 112
+  end
+  object tblBuildings: TADOTable
+    Active = True
+    Connection = ADOConnection1
+    CursorType = ctStatic
+    TableName = 'Building'
+    Left = 136
+    Top = 176
+  end
+  object tblServices: TADOTable
+    Active = True
+    Connection = ADOConnection1
+    CursorType = ctStatic
+    TableName = 'Services'
+    Left = 136
+    Top = 232
   end
 end

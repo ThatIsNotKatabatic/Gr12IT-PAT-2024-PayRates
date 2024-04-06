@@ -49,10 +49,6 @@
 			<DCCReference Include="Signup.pas">
 				<Form>frmSignUp</Form>
 			</DCCReference>
-			<DCCReference Include="Main_DB.pas">
-				<Form>mainDB</Form>
-				<DesignClass>TDataModule</DesignClass>
-			</DCCReference>
 			<DCCReference Include="EmployeeView.pas">
 				<Form>frmEmployeeView</Form>
 			</DCCReference>
@@ -63,6 +59,11 @@
 			<DCCReference Include="MakePayment.pas">
 				<Form>frmMakePayment</Form>
 			</DCCReference>
+			<DCCReference Include="mainDB.pas">
+				<Form>dbmMainDB</Form>
+				<DesignClass>TDataModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Owner.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
