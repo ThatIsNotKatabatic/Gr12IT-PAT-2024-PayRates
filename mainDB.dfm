@@ -45,4 +45,18 @@ object dbmMainDB: TdbmMainDB
     Left = 136
     Top = 232
   end
+  object UserQuery: TADOQuery
+    Connection = ADOConnection1
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      'SELECT * FROM Building')
+    Left = 288
+    Top = 80
+  end
+  object EmployeeSource: TDataSource
+    DataSet = UserQuery
+    Left = 376
+    Top = 72
+  end
 end

@@ -12,6 +12,8 @@ type
     tblOwners: TADOTable;
     tblBuildings: TADOTable;
     tblServices: TADOTable;
+    UserQuery: TADOQuery;
+    EmployeeSource: TDataSource;
   private
     { Private declarations }
   public

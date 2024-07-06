@@ -9,7 +9,8 @@ uses
   OwnerView in 'OwnerView.pas' {frmOwnerView},
   MakePayment in 'MakePayment.pas' {frmMakePayment},
   mainDB in 'mainDB.pas' {dbmMainDB: TDataModule},
-  Owner in 'Owner.pas';
+  Owner in 'Owner.pas',
+  ServiceClass in 'ServiceClass.pas';
 
 {$R *.res}
 

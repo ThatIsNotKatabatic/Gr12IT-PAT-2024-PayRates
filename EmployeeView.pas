@@ -12,6 +12,9 @@ type
     btnSearch: TButton;
     pnlHeading: TPanel;
     dbgOut: TDBGrid;
+    cmbSearchType: TComboBox;
+    serachType: TComboBox;
+    procedure btnSearchClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -24,5 +27,11 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmEmployeeView.btnSearchClick(Sender: TObject);
+var search_type : string;
+begin
+
+end;
 
 end.

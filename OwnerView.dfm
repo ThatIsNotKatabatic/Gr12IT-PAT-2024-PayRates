@@ -11,6 +11,7 @@ object frmOwnerView: TfrmOwnerView
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object lblLogin: TLabel
@@ -93,6 +94,7 @@ object frmOwnerView: TfrmOwnerView
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 2
+    OnClick = btnMakePayClick
   end
   object grpMonthlyDue: TGroupBox
     Left = 8
@@ -494,6 +496,7 @@ object frmOwnerView: TfrmOwnerView
     Top = 104
     Width = 339
     Height = 334
+    DataSource = dbmMainDB.EmployeeSource
     TabOrder = 4
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText

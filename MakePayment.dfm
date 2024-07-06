@@ -3,7 +3,7 @@ object frmMakePayment: TfrmMakePayment
   Top = 0
   BorderIcons = []
   Caption = 'Make a Payment'
-  ClientHeight = 298
+  ClientHeight = 338
   ClientWidth = 197
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -16,7 +16,7 @@ object frmMakePayment: TfrmMakePayment
   TextHeight = 13
   object lblLogin: TLabel
     Left = 8
-    Top = 196
+    Top = 252
     Width = 150
     Height = 42
     Caption = 'Choose Amount'
@@ -42,9 +42,23 @@ object frmMakePayment: TfrmMakePayment
     GlowSize = 10
     ParentFont = False
   end
+  object Label2: TLabel
+    Left = 8
+    Top = 196
+    Width = 170
+    Height = 42
+    Caption = 'Select Property'
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Consolas'
+    Font.Style = []
+    GlowSize = 10
+    ParentFont = False
+  end
   object sedAmount: TSpinEdit
     Left = 8
-    Top = 223
+    Top = 279
     Width = 181
     Height = 22
     MaxValue = 0
@@ -54,7 +68,7 @@ object frmMakePayment: TfrmMakePayment
   end
   object btnCancel: TButton
     Left = 8
-    Top = 265
+    Top = 307
     Width = 65
     Height = 25
     Caption = 'Cancel'
@@ -69,7 +83,7 @@ object frmMakePayment: TfrmMakePayment
   end
   object btnPay: TButton
     Left = 79
-    Top = 265
+    Top = 307
     Width = 110
     Height = 25
     Caption = 'Pay'
@@ -80,6 +94,7 @@ object frmMakePayment: TfrmMakePayment
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 2
+    OnClick = btnPayClick
   end
   object rgpChoose: TRadioGroup
     Left = 4
@@ -91,6 +106,7 @@ object frmMakePayment: TfrmMakePayment
       'Electricity'
       'Refuse')
     TabOrder = 3
+    OnClick = rgpChooseClick
   end
   object pnlHeading: TPanel
     Left = -8
@@ -109,5 +125,19 @@ object frmMakePayment: TfrmMakePayment
     ParentShowHint = False
     ShowHint = False
     TabOrder = 4
+  end
+  object cmbProperty: TComboBox
+    Left = 8
+    Top = 225
+    Width = 181
+    Height = 21
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Consolas'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 5
+    Text = 'Pick a property'
   end
 end

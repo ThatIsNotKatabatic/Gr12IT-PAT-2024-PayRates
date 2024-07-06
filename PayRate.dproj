@@ -64,6 +64,7 @@
 				<DesignClass>TDataModule</DesignClass>
 			</DCCReference>
 			<DCCReference Include="Owner.pas"/>
+			<DCCReference Include="ServiceClass.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

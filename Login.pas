@@ -67,7 +67,7 @@ begin
       end;
       tblEmployee.Next;
     end;
-    // search throught the employee table complete, now moving on to owner table
+    // searched throught the employee table complete, now moving on to owner table
     tblOwners.First;
     while Not tblOwners.EOF do
     begin
@@ -77,6 +77,7 @@ begin
         begin
           // login was successful
           frmOwnerView.Show;
+          frmOwnerView.createOwner(tblOwners['OwnerID']);
           Hide;
           Exit();
         end

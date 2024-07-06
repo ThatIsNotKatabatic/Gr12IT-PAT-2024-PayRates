@@ -2,23 +2,64 @@ unit Globals;
 
 interface
 
+uses
+  Windows,Messages,Dialogs, SysUtils, Math, ShellAPI, Classes, mainDB;
+
 type
   TGlobals = class(TObject)
 
   public
     constructor create();
     function sendEmail(subject, body, address: string): string;
+    procedure setSQL(SQL : string);
   end;
 
 
 implementation
 
-uses
-  Windows, SysUtils, Math, ShellAPI, Classes;
 
 constructor TGlobals.create;
 begin
  // it constructs I guess...
+end;
+
+procedure TGlobals.setSQL(SQL: String);
+var
+  sInstr: String;
+  iPos: integer;
+begin
+  if Trim(SQL) <> '' then
+  begin
+    iPos := pos(' ', SQL);
+    sInstr := UpperCase(copy(SQL, 1, iPos - 1));
+
+    if sInstr = 'SELECT' then
+    begin
+      mainDB.dbmMainDB.UserQuery.Close;
+      mainDB.dbmMainDB.UserQuery.SQL.Clear;
+      mainDB.dbmMainDB.UserQuery.SQL.Add(SQL);
+      mainDB.dbmMainDB.UserQuery.Open;
+
+    end
+    else if (sInstr = 'UPDATE') OR (sInstr = 'DELETE') OR (sInstr = 'INSERT')
+      then
+    begin
+      mainDB.dbmMainDB.UserQuery.SQL.Clear;
+      mainDB.dbmMainDB.UserQuery.SQL.Add(SQL);
+      mainDB.dbmMainDB.UserQuery.ExecSQL;
+      showmessage(inttostr(mainDB.dbmMainDB.UserQuery.RowsAffected) + ' record/s modifed.');
+    end
+    else
+    begin
+      showmessage('SQL contains an invalid instruction');
+    end;
+
+  end
+  else
+  begin
+    showmessage('SQL is blank. Cannot execute.');
+  end;
+
 end;
 
 function TGlobals.sendEmail(subject, body, address: string): string;

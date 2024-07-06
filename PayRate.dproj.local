@@ -23,5 +23,24 @@
     <Transaction>2024/04/02 11:37:07.785.pas,E:\Delphi\IT PAT Gr 12 PayRates\Unit1.pas=E:\Delphi\IT PAT Gr 12 PayRates\mainDB.pas</Transaction>
     <Transaction>2024/04/02 11:37:07.785.dfm,E:\Delphi\IT PAT Gr 12 PayRates\Unit1.dfm=E:\Delphi\IT PAT Gr 12 PayRates\mainDB.dfm</Transaction>
     <Transaction>2024/04/02 20:54:55.997.pas,E:\Delphi\IT PAT Gr 12 PayRates\Unit1.pas=E:\Delphi\IT PAT Gr 12 PayRates\Owner.pas</Transaction>
+    <Transaction>2024/04/06 12:53:10.908.pas,E:\Delphi\IT PAT Gr 12 PayRates\ServiceClass.pas=</Transaction>
+    <Transaction>2024/04/06 12:53:53.914.pas,E:\Delphi\IT PAT Gr 12 PayRates\Unit1.pas=E:\Delphi\IT PAT Gr 12 PayRates\ServiceClass.pas</Transaction>
   </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="EmployeeView.pas"/>
+    <File Path="EmployeeView.dfm"/>
+    <File Path="Globals.pas"/>
+    <File Path="Login.pas"/>
+    <File Path="Login.dfm"/>
+    <File Path="mainDB.pas"/>
+    <File Path="mainDB.dfm"/>
+    <File Path="MakePayment.pas"/>
+    <File Path="MakePayment.dfm"/>
+    <File Path="Owner.pas"/>
+    <File Path="OwnerView.pas"/>
+    <File Path="OwnerView.dfm"/>
+    <File Path="Signup.pas"/>
+    <File Path="Signup.dfm"/>
+    <File Path="ServiceClass.pas"/>
+  </ProjectSortOrder>
 </BorlandProject>
