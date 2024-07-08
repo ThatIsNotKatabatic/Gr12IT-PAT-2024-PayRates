@@ -57,19 +57,19 @@ begin
     end;
 
 
-    // TODO: Fix this broken shit
-//  with dbmmainDB do
-//  begin
-//    tblServices.Append;
-//    tblServices['EntryID'] := objOwner.getOwnerID + FormatDateTime('ddmmyy', Date) + inttostr(payments_made);
-//    tblServices['PropertyAddress'] := cmbProperty.Text;
-//    tblServices['Type'] := rgpChoose.Items[rgpChoose.ItemIndex];
-//    tblServices['PayedDate'] := Date;
-//    tblServices['AmountPaid'] := sedAmount.value;
-//    tblServices.Post;
-//  end;
-//
-//  inc(payments_made);
+
+  with dbmmainDB do
+  begin
+    tblServices.Append;
+    tblServices['EntryID'] := objOwner.getOwnerID + FormatDateTime('ddmmyy', Date) + inttostr(payments_made);
+    tblServices['PropertyAddress'] := cmbProperty.Text;
+    tblServices['Type'] := rgpChoose.Items[rgpChoose.ItemIndex];
+    tblServices['PayedDate'] := Date;
+    tblServices['AmountPaid'] := sedAmount.value;
+    tblServices.Post;
+  end;
+
+  inc(payments_made);
 end;
 
 procedure TfrmMakePayment.rgpChooseClick(Sender: TObject);

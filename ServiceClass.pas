@@ -10,7 +10,7 @@ type
  public
    payDate: TDate;
    amountPaid: double;
-   serviceType: char;
+   serviceType: string;
    constructor create;
  end;
 
