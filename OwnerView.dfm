@@ -74,13 +74,6 @@ object frmOwnerView: TfrmOwnerView
     ShowHint = False
     TabOrder = 0
   end
-  object grpDue: TGroupBox
-    Left = 8
-    Top = 104
-    Width = 298
-    Height = 129
-    TabOrder = 1
-  end
   object btnMakePay: TButton
     Left = 8
     Top = 399
@@ -93,7 +86,7 @@ object frmOwnerView: TfrmOwnerView
     Font.Name = 'Consolas'
     Font.Style = [fsBold]
     ParentFont = False
-    TabOrder = 2
+    TabOrder = 1
     OnClick = btnMakePayClick
   end
   object grpMonthlyDue: TGroupBox
@@ -101,7 +94,7 @@ object frmOwnerView: TfrmOwnerView
     Top = 264
     Width = 298
     Height = 129
-    TabOrder = 3
+    TabOrder = 2
     object Image1: TImage
       Left = 10
       Top = 58
@@ -497,11 +490,26 @@ object frmOwnerView: TfrmOwnerView
     Width = 339
     Height = 334
     DataSource = dbmMainDB.EmployeeSource
-    TabOrder = 4
+    TabOrder = 3
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+  end
+  object redDue: TRichEdit
+    Left = 8
+    Top = 117
+    Width = 298
+    Height = 116
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    Lines.Strings = (
+      'redDue')
+    ParentFont = False
+    TabOrder = 4
   end
 end

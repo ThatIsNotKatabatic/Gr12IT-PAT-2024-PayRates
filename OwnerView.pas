@@ -11,7 +11,6 @@ type
   TfrmOwnerView = class(TForm)
     pnlHeading: TPanel;
     btnMakePay: TButton;
-    grpDue: TGroupBox;
     grpMonthlyDue: TGroupBox;
     lblLogin: TLabel;
     Label1: TLabel;
@@ -23,6 +22,7 @@ type
     Image2: TImage;
     Image3: TImage;
     DBGrid1: TDBGrid;
+    redDue: TRichEdit;
     procedure btnMakePayClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -50,6 +50,8 @@ begin
 end;
 
 procedure TfrmOwnerView.createOwner(OwnerID: string);
+var Water__due, elec_due, refuse_due : Double;
+  i: Integer;
 begin
   objOwner := TOwner.create(OwnerID);
   pnlWater.Caption := floattostr(objOwner.getWaterBill);
@@ -57,12 +59,22 @@ begin
   pnlElectricity.Caption := floattostr(objOwner.getElecBill);
 
   objGlobals.setSQL('SELECT PropertyAddress, Type, PayedDate, AmountPaid FROM Services WHERE OwnerID = "' + objOwner.getOwnerID + '"');
+
+  redDue.Clear;
+  for i := 1 to Length(objOwner.duePreMonth_PerProperty) do
+  begin
+    redDue.Lines.Add('Address: ' + objOwner.getPropertyAddressList[i]);
+    redDue.Lines.Add('Water Due: ' + FloatToStr(objOwner.duePreMonth_PerProperty[i][0]));
+    redDue.Lines.Add('Electricity Due: ' + FloatToStr(objOwner.duePreMonth_PerProperty[i][1]));
+    redDue.Lines.Add('Refuse Due: ' + FloatToStr(objOwner.duePreMonth_PerProperty[i][2]));
+    redDue.Lines.Add('');
+  end;
+
 end;
 
 procedure TfrmOwnerView.FormCreate(Sender: TObject);
 begin
   objGlobals := TGlobals.create;
-
 
 end;
 

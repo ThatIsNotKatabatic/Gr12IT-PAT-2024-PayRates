@@ -11,6 +11,7 @@ type
    payDate: TDate;
    amountPaid: double;
    serviceType: string;
+   address: string;
    constructor create;
  end;
 
