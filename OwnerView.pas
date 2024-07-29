@@ -60,8 +60,9 @@ begin
 
   objGlobals.setSQL('SELECT PropertyAddress, Type, PayedDate, AmountPaid FROM Services WHERE OwnerID = "' + objOwner.getOwnerID + '"');
 
+
   redDue.Clear;
-  for i := 1 to Length(objOwner.duePreMonth_PerProperty) do
+  for i := 0 to Length(objOwner.duePreMonth_PerProperty) -1 do
   begin
     redDue.Lines.Add('Address: ' + objOwner.getPropertyAddressList[i]);
     redDue.Lines.Add('Water Due: ' + FloatToStr(objOwner.duePreMonth_PerProperty[i][0]));

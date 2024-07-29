@@ -7,7 +7,9 @@ uses
 
 type
   TStringArray = array of string;
-  TInnerArray = array[0 .. 2] of Double;
+
+  TInnerArray = array [0 .. 2] of Double;
+
   T2DArray = array of TInnerArray;
 
   TOwner = class(TObject)
@@ -15,9 +17,10 @@ type
     ownerID: string;
     waterBill, electricityBill, refuseBill: Double;
     paymentHistory: array of TServiceClass;
-    propertiesOwned: TStringArray;
+
   public
     duePreMonth_PerProperty, DueThisMonth_PerProperty: T2DArray;
+    propertiesOwned: TStringArray;
     constructor Create(Owner_ID: string);
     procedure calcOverdue;
     procedure calc_property_list;
@@ -51,11 +54,12 @@ begin
       if tblBuildings['Owner'] = ownerID then
       begin
         waterBill := waterBill + tblBuildings['MonthlyWaterBill'];
-        electricityBill := electricityBill + tblBuildings['MonthlyElectricityBill'];
+        electricityBill := electricityBill + tblBuildings
+          ['MonthlyElectricityBill'];
         refuseBill := refuseBill + tblBuildings['MonthlyRefuseBill'];
 
         SetLength(propertiesOwned, Length(propertiesOwned) + 1);
-        propertiesOwned[High(propertiesOwned)] := tblBuildings['Address'];
+        propertiesOwned[ High(propertiesOwned)] := tblBuildings['Address'];
       end;
       tblBuildings.Next;
     end;
@@ -79,31 +83,39 @@ begin
       if tblServices['OwnerID'] = ownerID then
       begin
         if (MonthOf(tblServices['PayedDate']) = pre_month) or
-           (MonthOf(tblServices['PayedDate']) = MonthOf(Now)) then
+          (MonthOf(tblServices['PayedDate']) = MonthOf(Now)) then
         begin
           SetLength(paymentHistory, Length(paymentHistory) + 1);
-          paymentHistory[High(paymentHistory)] := TServiceClass.Create;
-          paymentHistory[High(paymentHistory)].payDate := tblServices['PayedDate'];
-          paymentHistory[High(paymentHistory)].amountPaid := tblServices['AmountPaid'];
-          paymentHistory[High(paymentHistory)].serviceType := tblServices['Type'];
-          paymentHistory[High(paymentHistory)].address := tblServices['PropertyAddress'];
+          paymentHistory[ High(paymentHistory)] := TServiceClass.Create;
+          paymentHistory[ High(paymentHistory)].payDate := tblServices
+            ['PayedDate'];
+          paymentHistory[ High(paymentHistory)].amountPaid := tblServices
+            ['AmountPaid'];
+          paymentHistory[ High(paymentHistory)].serviceType := tblServices
+            ['Type'];
+          paymentHistory[ High(paymentHistory)].address := tblServices
+            ['PropertyAddress'];
         end;
       end;
       tblServices.Next;
     end;
   end;
 
-  calc_property_list;
+  // calc_property_list;
 
   SetLength(duePreMonth_PerProperty, Length(propertiesOwned));
-  SetLength(dueThisMonth_PerProperty, Length(propertiesOwned));
+  SetLength(DueThisMonth_PerProperty, Length(propertiesOwned));
+
+  { TODO Make it so it calculates the amount due not the amount paid}
+  // probs the best way to do this would be to have it subtract from the total
+  // then at the end (in another for loop) go through and check to make sure nothing is negative
 
   for i := 0 to High(duePreMonth_PerProperty) do
   begin
     for j := 0 to 2 do
     begin
       duePreMonth_PerProperty[i][j] := 0;
-      dueThisMonth_PerProperty[i][j] := 0;
+      DueThisMonth_PerProperty[i][j] := 0;
     end;
 
     for j := 0 to High(paymentHistory) do
@@ -113,21 +125,27 @@ begin
         if (MonthOf(paymentHistory[j].payDate) = pre_month) then
         begin
           if paymentHistory[j].serviceType = 'Water' then
-            duePreMonth_PerProperty[i][0] := duePreMonth_PerProperty[i][0] + paymentHistory[j].amountPaid;
+            duePreMonth_PerProperty[i][0] := duePreMonth_PerProperty[i][0]
+              + paymentHistory[j].amountPaid;
           if paymentHistory[j].serviceType = 'Electricity' then
-            duePreMonth_PerProperty[i][1] := duePreMonth_PerProperty[i][1] + paymentHistory[j].amountPaid;
+            duePreMonth_PerProperty[i][1] := duePreMonth_PerProperty[i][1]
+              + paymentHistory[j].amountPaid;
           if paymentHistory[j].serviceType = 'Refuse' then
-            duePreMonth_PerProperty[i][2] := duePreMonth_PerProperty[i][2] + paymentHistory[j].amountPaid;
+            duePreMonth_PerProperty[i][2] := duePreMonth_PerProperty[i][2]
+              + paymentHistory[j].amountPaid;
         end;
 
         if (MonthOf(paymentHistory[j].payDate) = MonthOf(Now)) then
         begin
           if paymentHistory[j].serviceType = 'Water' then
-            dueThisMonth_PerProperty[i][0] := dueThisMonth_PerProperty[i][0] + paymentHistory[j].amountPaid;
+            DueThisMonth_PerProperty[i][0] := DueThisMonth_PerProperty[i][0]
+              + paymentHistory[j].amountPaid;
           if paymentHistory[j].serviceType = 'Electricity' then
-            dueThisMonth_PerProperty[i][1] := dueThisMonth_PerProperty[i][1] + paymentHistory[j].amountPaid;
+            DueThisMonth_PerProperty[i][1] := DueThisMonth_PerProperty[i][1]
+              + paymentHistory[j].amountPaid;
           if paymentHistory[j].serviceType = 'Refuse' then
-            dueThisMonth_PerProperty[i][2] := dueThisMonth_PerProperty[i][2] + paymentHistory[j].amountPaid;
+            DueThisMonth_PerProperty[i][2] := DueThisMonth_PerProperty[i][2]
+              + paymentHistory[j].amountPaid;
         end;
       end;
     end;
@@ -145,10 +163,10 @@ begin
     tblBuildings.First;
     while not tblBuildings.Eof do
     begin
-      if tblBuildings['OwnerID'] = ownerID then
+      if tblBuildings['Owner'] = ownerID then
       begin
         SetLength(propertiesOwned, Length(propertiesOwned) + 1);
-        propertiesOwned[High(propertiesOwned)] := tblBuildings['Address'];
+        propertiesOwned[ High(propertiesOwned)] := tblBuildings['Address'];
       end;
       tblBuildings.Next;
     end;
@@ -181,4 +199,3 @@ begin
 end;
 
 end.
-
