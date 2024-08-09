@@ -510,6 +510,8 @@ object frmOwnerView: TfrmOwnerView
     Lines.Strings = (
       'redDue')
     ParentFont = False
+    ReadOnly = True
+    ScrollBars = ssVertical
     TabOrder = 4
   end
 end

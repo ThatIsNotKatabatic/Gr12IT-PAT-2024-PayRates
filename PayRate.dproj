@@ -65,6 +65,7 @@
 			</DCCReference>
 			<DCCReference Include="Owner.pas"/>
 			<DCCReference Include="ServiceClass.pas"/>
+			<DCCReference Include="building.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

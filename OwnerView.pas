@@ -62,9 +62,9 @@ begin
 
 
   redDue.Clear;
-  for i := 0 to Length(objOwner.duePreMonth_PerProperty) -1 do
+  for i := 0 to Length(objOwner.duePreMonth_PerProperty) - 1 do
   begin
-    redDue.Lines.Add('Address: ' + objOwner.getPropertyAddressList[i]);
+    redDue.Lines.Add('Address: ' + objOwner.getPropertyAddressList[i].Address);
     redDue.Lines.Add('Water Due: ' + FloatToStr(objOwner.duePreMonth_PerProperty[i][0]));
     redDue.Lines.Add('Electricity Due: ' + FloatToStr(objOwner.duePreMonth_PerProperty[i][1]));
     redDue.Lines.Add('Refuse Due: ' + FloatToStr(objOwner.duePreMonth_PerProperty[i][2]));

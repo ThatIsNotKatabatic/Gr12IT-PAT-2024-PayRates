@@ -3,10 +3,10 @@ unit Owner;
 interface
 
 uses
-  Windows, SysUtils, DateUtils, Dialogs, ServiceClass, mainDB;
+  Windows, SysUtils, DateUtils, Dialogs, ServiceClass, mainDB, building;
 
 type
-  TStringArray = array of string;
+  TBuildingsArray = array of TBuilding;
 
   TInnerArray = array [0 .. 2] of Double;
 
@@ -20,15 +20,14 @@ type
 
   public
     duePreMonth_PerProperty, DueThisMonth_PerProperty: T2DArray;
-    propertiesOwned: TStringArray;
+    propertiesOwned: TBuildingsArray;
     constructor Create(Owner_ID: string);
     procedure calcOverdue;
-    procedure calc_property_list;
     function getWaterBill: Double;
     function getElecBill: Double;
     function getRefuseBill: Double;
     function getOwnerID: string;
-    function getPropertyAddressList: TStringArray;
+    function getPropertyAddressList: TBuildingsArray;
   end;
 
 implementation
@@ -45,7 +44,6 @@ begin
   electricityBill := 0;
   refuseBill := 0;
   SetLength(propertiesOwned, 0);
-
   with dbmMainDB do
   begin
     tblBuildings.First;
@@ -53,13 +51,20 @@ begin
     begin
       if tblBuildings['Owner'] = ownerID then
       begin
+        // add to the building array
+        SetLength(propertiesOwned, Length(propertiesOwned) + 1);
+        propertiesOwned[ High(propertiesOwned)] := TBuilding.Create
+          (tblBuildings['Address'],
+          tblBuildings['MonthlyWaterBill'],
+          tblBuildings['MonthlyElectricityBill'],
+          tblBuildings['MonthlyRefuseBill']);
+
+        // add towards the total bill
         waterBill := waterBill + tblBuildings['MonthlyWaterBill'];
         electricityBill := electricityBill + tblBuildings
           ['MonthlyElectricityBill'];
         refuseBill := refuseBill + tblBuildings['MonthlyRefuseBill'];
 
-        SetLength(propertiesOwned, Length(propertiesOwned) + 1);
-        propertiesOwned[ High(propertiesOwned)] := tblBuildings['Address'];
       end;
       tblBuildings.Next;
     end;
@@ -69,108 +74,8 @@ begin
 end;
 
 procedure TOwner.calcOverdue;
-var
-  pre_month, i, j, r: integer;
 begin
-  pre_month := MonthOf(Now) - 1;
-  SetLength(paymentHistory, 0);
-
-  with dbmMainDB do
-  begin
-    tblServices.First;
-    while not tblServices.Eof do
-    begin
-      if tblServices['OwnerID'] = ownerID then
-      begin
-        if (MonthOf(tblServices['PayedDate']) = pre_month) or
-          (MonthOf(tblServices['PayedDate']) = MonthOf(Now)) then
-        begin
-          SetLength(paymentHistory, Length(paymentHistory) + 1);
-          paymentHistory[ High(paymentHistory)] := TServiceClass.Create;
-          paymentHistory[ High(paymentHistory)].payDate := tblServices
-            ['PayedDate'];
-          paymentHistory[ High(paymentHistory)].amountPaid := tblServices
-            ['AmountPaid'];
-          paymentHistory[ High(paymentHistory)].serviceType := tblServices
-            ['Type'];
-          paymentHistory[ High(paymentHistory)].address := tblServices
-            ['PropertyAddress'];
-        end;
-      end;
-      tblServices.Next;
-    end;
-  end;
-
-  // calc_property_list;
-
-  SetLength(duePreMonth_PerProperty, Length(propertiesOwned));
-  SetLength(DueThisMonth_PerProperty, Length(propertiesOwned));
-
-  { TODO Make it so it calculates the amount due not the amount paid}
-  // probs the best way to do this would be to have it subtract from the total
-  // then at the end (in another for loop) go through and check to make sure nothing is negative
-
-  for i := 0 to High(duePreMonth_PerProperty) do
-  begin
-    for j := 0 to 2 do
-    begin
-      duePreMonth_PerProperty[i][j] := 0;
-      DueThisMonth_PerProperty[i][j] := 0;
-    end;
-
-    for j := 0 to High(paymentHistory) do
-    begin
-      if (paymentHistory[j].address = propertiesOwned[i]) then
-      begin
-        if (MonthOf(paymentHistory[j].payDate) = pre_month) then
-        begin
-          if paymentHistory[j].serviceType = 'Water' then
-            duePreMonth_PerProperty[i][0] := duePreMonth_PerProperty[i][0]
-              + paymentHistory[j].amountPaid;
-          if paymentHistory[j].serviceType = 'Electricity' then
-            duePreMonth_PerProperty[i][1] := duePreMonth_PerProperty[i][1]
-              + paymentHistory[j].amountPaid;
-          if paymentHistory[j].serviceType = 'Refuse' then
-            duePreMonth_PerProperty[i][2] := duePreMonth_PerProperty[i][2]
-              + paymentHistory[j].amountPaid;
-        end;
-
-        if (MonthOf(paymentHistory[j].payDate) = MonthOf(Now)) then
-        begin
-          if paymentHistory[j].serviceType = 'Water' then
-            DueThisMonth_PerProperty[i][0] := DueThisMonth_PerProperty[i][0]
-              + paymentHistory[j].amountPaid;
-          if paymentHistory[j].serviceType = 'Electricity' then
-            DueThisMonth_PerProperty[i][1] := DueThisMonth_PerProperty[i][1]
-              + paymentHistory[j].amountPaid;
-          if paymentHistory[j].serviceType = 'Refuse' then
-            DueThisMonth_PerProperty[i][2] := DueThisMonth_PerProperty[i][2]
-              + paymentHistory[j].amountPaid;
-        end;
-      end;
-    end;
-  end;
-end;
-
-procedure TOwner.calc_property_list;
-var
-  i: integer;
-begin
-  SetLength(propertiesOwned, 0);
-
-  with dbmMainDB do
-  begin
-    tblBuildings.First;
-    while not tblBuildings.Eof do
-    begin
-      if tblBuildings['Owner'] = ownerID then
-      begin
-        SetLength(propertiesOwned, Length(propertiesOwned) + 1);
-        propertiesOwned[ High(propertiesOwned)] := tblBuildings['Address'];
-      end;
-      tblBuildings.Next;
-    end;
-  end;
+    // I'll do this tomorrow
 end;
 
 function TOwner.getElecBill: Double;
@@ -183,7 +88,7 @@ begin
   Result := ownerID;
 end;
 
-function TOwner.getPropertyAddressList: TStringArray;
+function TOwner.getPropertyAddressList: TBuildingsArray;
 begin
   Result := propertiesOwned;
 end;

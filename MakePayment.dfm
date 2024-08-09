@@ -139,5 +139,6 @@ object frmMakePayment: TfrmMakePayment
     ParentFont = False
     TabOrder = 5
     Text = 'Pick a property'
+    OnChange = cmbPropertyChange
   end
 end

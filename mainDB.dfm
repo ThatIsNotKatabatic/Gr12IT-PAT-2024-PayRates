@@ -40,12 +40,13 @@ object dbmMainDB: TdbmMainDB
   object tblServices: TADOTable
     Active = True
     Connection = ADOConnection1
-    CursorType = ctStatic
+    CursorLocation = clUseServer
     TableName = 'Services'
     Left = 136
     Top = 232
   end
   object UserQuery: TADOQuery
+    Active = True
     Connection = ADOConnection1
     CursorType = ctStatic
     Parameters = <>
