@@ -8,21 +8,16 @@ uses
 type
   TBuildingsArray = array of TBuilding;
 
-  TInnerArray = array [0 .. 2] of Double;
-
-  T2DArray = array of TInnerArray;
-
   TOwner = class(TObject)
   private
     ownerID: string;
     waterBill, electricityBill, refuseBill: Double;
-    paymentHistory: array of TServiceClass;
+    waterPaid, electricityPaid, refusePaid : Double;
+    propertiesOwned: TBuildingsArray;
 
   public
-    duePreMonth_PerProperty, DueThisMonth_PerProperty: T2DArray;
-    propertiesOwned: TBuildingsArray;
+
     constructor Create(Owner_ID: string);
-    procedure calcOverdue;
     function getWaterBill: Double;
     function getElecBill: Double;
     function getRefuseBill: Double;
@@ -44,6 +39,7 @@ begin
   electricityBill := 0;
   refuseBill := 0;
   SetLength(propertiesOwned, 0);
+
   with dbmMainDB do
   begin
     tblBuildings.First;
@@ -70,13 +66,15 @@ begin
     end;
   end;
 
-  calcOverdue;
+  // calculate the total amounts that are due
+  for i := 0 to High(PropertiesOwned) do
+  begin
+    waterPaid := waterPaid + propertiesOwned[i].water_bill - propertiesOwned[i].water_paid;
+    electricityPaid := electricityPaid  + propertiesOwned[i].electricity_bill - propertiesOwned[i].electricity_paid;
+    refusePaid  := refusePaid + PropertiesOwned[i].refuse_bill - propertiesOwned[i].refuse_paid;
+  end;
 end;
 
-procedure TOwner.calcOverdue;
-begin
-    // I'll do this tomorrow
-end;
 
 function TOwner.getElecBill: Double;
 begin

@@ -3,7 +3,7 @@ object frmOwnerView: TfrmOwnerView
   Top = 0
   Caption = 'Pay Rates Owner Signed In'
   ClientHeight = 446
-  ClientWidth = 660
+  ClientWidth = 662
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

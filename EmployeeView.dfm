@@ -11,14 +11,16 @@ object frmEmployeeView: TfrmEmployeeView
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object edtSearchBar: TEdit
     Left = 8
     Top = 80
-    Width = 265
+    Width = 249
     Height = 21
     TabOrder = 0
+    OnChange = edtSearchBarChange
   end
   object btnSearch: TButton
     Left = 471
@@ -61,23 +63,29 @@ object frmEmployeeView: TfrmEmployeeView
     TitleFont.Style = []
   end
   object cmbSearchType: TComboBox
-    Left = 279
+    Left = 365
     Top = 80
-    Width = 99
+    Width = 100
     Height = 21
     TabOrder = 4
+    Text = 'Select Type'
     Items.Strings = (
-      'OwnerID'#11
+      'OwnerID'
       'Address'
-      'Name'
-      'AmountPaid'
-      'AmountDue')
+      'FirstName')
   end
-  object serachType: TComboBox
-    Left = 384
+  object cmbTableSelect: TComboBox
+    Left = 263
     Top = 80
-    Width = 81
+    Width = 96
     Height = 21
     TabOrder = 5
+    Text = 'Select Table'
+    OnChange = cmbTableSelectChange
+    Items.Strings = (
+      'Building'
+      'Employees'
+      'Owner'
+      'Services')
   end
 end

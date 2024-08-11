@@ -34,7 +34,7 @@ begin
   refuse_bill := refuse;
 
   calculate_paid;
-  debug_print;
+  //debug_print;
 end;
 
 procedure TBuilding.debug_print;

@@ -10,7 +10,6 @@ uses
   MakePayment in 'MakePayment.pas' {frmMakePayment},
   mainDB in 'mainDB.pas' {dbmMainDB: TDataModule},
   Owner in 'Owner.pas',
-  ServiceClass in 'ServiceClass.pas',
   building in 'building.pas';
 
 {$R *.res}

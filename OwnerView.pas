@@ -50,7 +50,7 @@ begin
 end;
 
 procedure TfrmOwnerView.createOwner(OwnerID: string);
-var Water__due, elec_due, refuse_due : Double;
+var
   i: Integer;
 begin
   objOwner := TOwner.create(OwnerID);
@@ -62,12 +62,12 @@ begin
 
 
   redDue.Clear;
-  for i := 0 to Length(objOwner.duePreMonth_PerProperty) - 1 do
+  for i := 0 to High(objOwner.getPropertyAddressList) do
   begin
     redDue.Lines.Add('Address: ' + objOwner.getPropertyAddressList[i].Address);
-    redDue.Lines.Add('Water Due: ' + FloatToStr(objOwner.duePreMonth_PerProperty[i][0]));
-    redDue.Lines.Add('Electricity Due: ' + FloatToStr(objOwner.duePreMonth_PerProperty[i][1]));
-    redDue.Lines.Add('Refuse Due: ' + FloatToStr(objOwner.duePreMonth_PerProperty[i][2]));
+    redDue.Lines.Add('Water Due: ' + FloatToStr(objOwner.getPropertyAddressList[i].water_bill - objOwner.getPropertyAddressList[i].water_paid));
+    redDue.Lines.Add('Electricity Due: ' + FloatToStr(objOwner.getPropertyAddressList[i].electricity_bill - objOwner.getPropertyAddressList[i].electricity_paid));
+    redDue.Lines.Add('Refuse Due: ' + FloatToStr(objOwner.getPropertyAddressList[i].refuse_bill - objOwner.getPropertyAddressList[i].refuse_paid));
     redDue.Lines.Add('');
   end;
 
