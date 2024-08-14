@@ -62,7 +62,6 @@ object frmLogin: TfrmLogin
     Width = 218
     Height = 21
     TabOrder = 0
-    Text = 'jonathanleroux2006@gmail.com'
   end
   object edtLoginPassword: TEdit
     Left = 8
@@ -71,7 +70,6 @@ object frmLogin: TfrmLogin
     Height = 21
     PasswordChar = '*'
     TabOrder = 1
-    Text = '12345'
   end
   object btnLogin: TButton
     Left = 8

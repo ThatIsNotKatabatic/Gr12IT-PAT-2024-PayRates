@@ -18,6 +18,8 @@ type
     water_bill, electricity_bill, refuse_bill: double;
     water_paid, electricity_paid, refuse_paid: double;
     Address: string;
+    Bills: array[0..3] of Double;
+    Paid: array[0..3] of Double;
   end;
 
 implementation
@@ -34,6 +36,13 @@ begin
   refuse_bill := refuse;
 
   calculate_paid;
+  Bills[0] := water;
+  Bills[1] := elec;
+  Bills[2] := refuse;
+
+  Paid[0] := water_paid;
+  Paid[1] := electricity_paid;
+  Paid[2] := refuse_paid;
   //debug_print;
 end;
 

@@ -12,19 +12,36 @@ type
     pnlHeading: TPanel;
     btnMakePay: TButton;
     grpMonthlyDue: TGroupBox;
-    lblLogin: TLabel;
-    Label1: TLabel;
-    Label2: TLabel;
+    lblTitle: TLabel;
     pnlWater: TPanel;
     pnlElectricity: TPanel;
     pnlRefuse: TPanel;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
-    DBGrid1: TDBGrid;
-    redDue: TRichEdit;
+    lblOptions: TLabel;
+    btnPaymentHistory: TButton;
+    imgLine: TImage;
+    imgLine2: TImage;
+    btnViewTotalDue: TButton;
+    btnViewMonthlyInstallments: TButton;
+    dbgrdPaymenHistory: TDBGrid;
+    lblTotal: TLabel;
+    lblBreakdown: TLabel;
+    grpStillToPay: TGroupBox;
+    img1: TImage;
+    img2: TImage;
+    img3: TImage;
+    lblTotal1: TLabel;
+    lblBreakdown1: TLabel;
+    pnlWater1: TPanel;
+    pnlElectricity1: TPanel;
+    pnlRefuse1: TPanel;
     procedure btnMakePayClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnPaymentHistoryClick(Sender: TObject);
+    procedure btnViewMonthlyInstallmentsClick(Sender: TObject);
+    procedure btnViewTotalDueClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -49,9 +66,37 @@ begin
   frmMakePayment.setOwner(objOwner.getOwnerID);
 end;
 
+procedure TfrmOwnerView.btnPaymentHistoryClick(Sender: TObject);
+begin
+  // show the payment history form
+  lblTitle.Caption := 'Displaying Payment History';
+  dbgrdPaymenHistory.Show;
+  grpMonthlyDue.Hide;
+  grpStillToPay.Hide;
+end;
+
+procedure TfrmOwnerView.btnViewMonthlyInstallmentsClick(Sender: TObject);
+begin
+  lblTitle.Caption := 'Displaying the monthly installment rates';
+  grpMonthlyDue.Show;
+  grpStillToPay.Hide;
+  dbgrdPaymenHistory.Hide;
+end;
+
+procedure TfrmOwnerView.btnViewTotalDueClick(Sender: TObject);
+begin
+  lblTitle.Caption := 'Displaying what still needs to be paid';
+  grpMonthlyDue.Hide;
+  grpStillToPay.Show;
+  dbgrdPaymenHistory.Hide;
+end;
+
 procedure TfrmOwnerView.createOwner(OwnerID: string);
 var
-  i: Integer;
+ lablle : TLabel;
+ panle : TPanel;
+ i, j : Integer;
+ adresses : TBuildingsArray;
 begin
   objOwner := TOwner.create(OwnerID);
   pnlWater.Caption := floattostr(objOwner.getWaterBill);
@@ -60,16 +105,67 @@ begin
 
   objGlobals.setSQL('SELECT PropertyAddress, Type, PayedDate, AmountPaid FROM Services WHERE OwnerID = "' + objOwner.getOwnerID + '"');
 
+  grpStillToPay.Hide;
+  grpMonthlyDue.Hide;
 
-  redDue.Clear;
+  adresses := objOwner.getPropertyAddressList;
+
   for i := 0 to High(objOwner.getPropertyAddressList) do
   begin
-    redDue.Lines.Add('Address: ' + objOwner.getPropertyAddressList[i].Address);
-    redDue.Lines.Add('Water Due: ' + FloatToStr(objOwner.getPropertyAddressList[i].water_bill - objOwner.getPropertyAddressList[i].water_paid));
-    redDue.Lines.Add('Electricity Due: ' + FloatToStr(objOwner.getPropertyAddressList[i].electricity_bill - objOwner.getPropertyAddressList[i].electricity_paid));
-    redDue.Lines.Add('Refuse Due: ' + FloatToStr(objOwner.getPropertyAddressList[i].refuse_bill - objOwner.getPropertyAddressList[i].refuse_paid));
-    redDue.Lines.Add('');
+    lablle := TLabel.Create(grpMonthlyDue);
+    lablle.Parent := grpMonthlyDue;
+    lablle.Font := lblTotal.Font;
+    lablle.Top := lblBreakdown.Top + 50 + (i * 80);
+    lablle.Left := lblTotal.Left;
+    lablle.Caption := adresses[i].Address + ': ';
+
+    for j := 0 to 3 do
+    begin
+      panle := TPanel.Create(grpMonthlyDue);
+      panle.Parent := grpMonthlyDue;
+      panle.Font := pnlWater.Font;
+      panle.Top := lblBreakdown.Top + 50  + (i * 80);
+      panle.Left := pnlWater.Left + (j * 123);
+      panle.Width := pnlWater.Width;
+      panle.Caption :=  FloatToStr(adresses[i].Bills[j]);
+    end;
   end;
+
+
+  // generate everything for the 'still to pay groupbox'
+  for i := 0 to High(objOwner.getPropertyAddressList) do
+  begin
+    lablle := TLabel.Create(grpStillToPay);
+    lablle.Parent := grpStillToPay;
+    lablle.Font := lblTotal.Font;
+    lablle.Top := lblBreakdown.Top + 50 + (i * 80);
+    lablle.Left := lblTotal.Left;
+    lablle.Caption := adresses[i].Address + ': ';
+
+    for j := 0 to 3 do
+    begin
+      panle := TPanel.Create(grpStillToPay);
+      panle.Parent := grpStillToPay;
+      panle.Font := pnlWater.Font;
+      panle.Top := lblBreakdown.Top + 50  + (i * 80);
+      panle.Left := pnlWater.Left + (j * 123);
+      panle.Width := pnlWater.Width;
+      panle.Caption :=  FloatToStr(adresses[i].Bills[j] - adresses[i].Paid[j]);
+    end;
+  end;
+
+  // soon
+  //panle.Caption :=  FloatToStr(adresses[i].Bills[j] - adresses[i].Paid[j]);
+
+//  redDue.Clear;
+//  for i := 0 to High(objOwner.getPropertyAddressList) do
+//  begin
+//    redDue.Lines.Add('Address: ' + objOwner.getPropertyAddressList[i].Address);
+//    redDue.Lines.Add('Water Due: ' + FloatToStr(objOwner.getPropertyAddressList[i].water_bill - objOwner.getPropertyAddressList[i].water_paid));
+//    redDue.Lines.Add('Electricity Due: ' + FloatToStr(objOwner.getPropertyAddressList[i].electricity_bill - objOwner.getPropertyAddressList[i].electricity_paid));
+//    redDue.Lines.Add('Refuse Due: ' + FloatToStr(objOwner.getPropertyAddressList[i].refuse_bill - objOwner.getPropertyAddressList[i].refuse_paid));
+//    redDue.Lines.Add('');
+//  end;
 
 end;
 
@@ -77,7 +173,7 @@ procedure TfrmOwnerView.FormCreate(Sender: TObject);
 begin
   objGlobals := TGlobals.create;
 
-end;
 
+end;
 
 end.

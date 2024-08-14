@@ -134,7 +134,7 @@ begin
   if not FileExists('LoginInData.txt') then
     Exit;
 
-  try
+
     AssignFile(txt_file, 'LoginInData.txt');
     Reset(txt_file);
 
@@ -150,9 +150,10 @@ begin
       edtLoginEmail.Text := Copy(line, 1, separatorPos - 1);
       edtLoginPassword.Text := Copy(line, separatorPos + 1, Length(line) - separatorPos);
     end;
-  finally
+
     CloseFile(txt_file);
-  end;
+    chkRememberMe.Checked := True;
+
 end;
 
 

@@ -2,7 +2,7 @@ object frmSignUp: TfrmSignUp
   Left = 0
   Top = 0
   Caption = 'Sign Up'
-  ClientHeight = 451
+  ClientHeight = 467
   ClientWidth = 236
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,28 +23,28 @@ object frmSignUp: TfrmSignUp
   end
   object Label3: TLabel
     Left = 8
-    Top = 300
+    Top = 316
     Width = 124
     Height = 13
     Caption = 'Enter Your Phone Number'
   end
   object Label4: TLabel
     Left = 8
-    Top = 238
+    Top = 254
     Width = 100
     Height = 13
     Caption = 'Enter Your Full Name'
   end
   object Label1: TLabel
     Left = 8
-    Top = 182
+    Top = 198
     Width = 215
     Height = 13
     Caption = 'Enter Validation Code (it was emailed to you)'
   end
   object Label5: TLabel
     Left = 8
-    Top = 356
+    Top = 372
     Width = 220
     Height = 13
     AutoSize = False
@@ -60,7 +60,7 @@ object frmSignUp: TfrmSignUp
   end
   object btnSignUp: TButton
     Left = 8
-    Top = 409
+    Top = 425
     Width = 220
     Height = 33
     Caption = 'SIGN UP'
@@ -93,14 +93,14 @@ object frmSignUp: TfrmSignUp
   end
   object edtPhoneNumber: TEdit
     Left = 8
-    Top = 319
+    Top = 335
     Width = 220
     Height = 21
     TabOrder = 3
   end
   object edtFullName: TEdit
     Left = 8
-    Top = 257
+    Top = 273
     Width = 220
     Height = 21
     TabOrder = 4
@@ -122,14 +122,14 @@ object frmSignUp: TfrmSignUp
   end
   object edtValidationCode: TEdit
     Left = 8
-    Top = 201
+    Top = 217
     Width = 220
     Height = 21
     TabOrder = 6
   end
   object edtPassword: TEdit
     Left = 8
-    Top = 375
+    Top = 391
     Width = 220
     Height = 21
     PasswordChar = '*'

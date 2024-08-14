@@ -34,6 +34,7 @@ type
 var
   frmSignUp: TfrmSignUp;
   objGlobals: TGlobals;
+  lablle : TLabel;
   verificationCode: string;
 
 implementation
@@ -102,10 +103,16 @@ begin
     exit();
   end;
   verificationCode := inttostr(RandomRange(10000, 99999));
-  btnValidate.Caption := 'Sending';
-  objGlobals.sendEmail('Validation Code for PayRates App',
-    'validation code is: ' + verificationCode, edtEmailAddress.Text);
-  btnValidate.Caption := 'Sent';
+  lablle := TLabel.Create(frmSignUp);
+  lablle.Parent := frmSignUp;
+  lablle.Top := 165;
+  lablle.Left := 16;
+  lablle.Font := btnValidate.Font;
+  lablle.Caption := 'Sending...' ;
+  //objGlobals.sendEmail('Validation Code for PayRates App',
+  //  'validation code is: ' + verificationCode, edtEmailAddress.Text);
+  lablle.Caption := 'Sent';
+  lablle.Font.Color := clGreen;
 end;
 
 procedure TfrmSignUp.FormCreate(Sender: TObject);
