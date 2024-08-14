@@ -130,13 +130,9 @@ var
   line: string;
   separatorPos: Integer;
 begin
-
-  if not FileExists('LoginInData.txt') then
-    Exit;
-
   try
-    AssignFile(txt_file, 'LoginInData.txt');
-    Reset(txt_file);
+  AssignFile(txt_file, 'LoginInData.txt');
+  Reset(txt_file);
 
     // Reads the user details from the txt file
     Readln(txt_file, line);

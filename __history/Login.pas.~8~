@@ -26,7 +26,6 @@ type
     function checkPassword(table: TADOTable): boolean;
     procedure SaveToTxtFile;
     procedure LoadFromTxtFile;
-    procedure ClearTxtFile;
   private
     { Private declarations }
   public
@@ -49,9 +48,6 @@ end;
 
 procedure TfrmLogin.Login;
 begin
-  if chkRememberMe.Checked = False then
-    ClearTxtFile;
-
   with dbmMainDB do
   begin
     tblEmployee.First;
@@ -110,18 +106,8 @@ begin
   AssignFile(txt_file, 'LoginInData.txt');
   // saves current user details to txt
   Rewrite(txt_file);
-  Writeln(txt_file, edtLoginEmail.Text + '#' + edtLoginPassword.Text);
-  CloseFile(txt_file);
+  Writeln(txt_file, edtLoginEmail.Text + '#' + edtLoginPassword.Text)
 
-end;
-
-procedure TfrmLogin.ClearTxtFile;
-var txt_file : TextFile;
-begin
-AssignFile(txt_file, 'LoginInData.txt');
-  // saves current user details to txt
-  Rewrite(txt_file);
-  CloseFile(txt_file);
 end;
 
 procedure TfrmLogin.LoadFromTxtFile;
@@ -130,14 +116,9 @@ var
   line: string;
   separatorPos: Integer;
 begin
-
-  if not FileExists('LoginInData.txt') then
-    Exit;
-
+  AssignFile(txt_file, 'LoginInData.txt');
+  Reset(txt_file);
   try
-    AssignFile(txt_file, 'LoginInData.txt');
-    Reset(txt_file);
-
     // Reads the user details from the txt file
     Readln(txt_file, line);
 
@@ -170,8 +151,6 @@ begin
       Exit();
     end;
 end;
-
-
 
 procedure TfrmLogin.btnSignUpClick(Sender: TObject);
 begin

@@ -2,7 +2,7 @@ object frmLogin: TfrmLogin
   Left = 0
   Top = 0
   Caption = 'Login to PayRates'
-  ClientHeight = 392
+  ClientHeight = 368
   ClientWidth = 234
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -44,7 +44,7 @@ object frmLogin: TfrmLogin
   end
   object Label1: TLabel
     Left = 104
-    Top = 313
+    Top = 289
     Width = 50
     Height = 52
     Caption = 'OR'
@@ -75,7 +75,7 @@ object frmLogin: TfrmLogin
   end
   object btnLogin: TButton
     Left = 8
-    Top = 274
+    Top = 250
     Width = 218
     Height = 33
     Caption = 'LOGIN'
@@ -108,7 +108,7 @@ object frmLogin: TfrmLogin
   end
   object btnSignUp: TButton
     Left = 8
-    Top = 351
+    Top = 327
     Width = 218
     Height = 33
     Caption = 'Sign Up'
@@ -120,13 +120,5 @@ object frmLogin: TfrmLogin
     ParentFont = False
     TabOrder = 4
     OnClick = btnSignUpClick
-  end
-  object chkRememberMe: TCheckBox
-    Left = 11
-    Top = 243
-    Width = 97
-    Height = 17
-    Caption = 'Remember Me'
-    TabOrder = 5
   end
 end

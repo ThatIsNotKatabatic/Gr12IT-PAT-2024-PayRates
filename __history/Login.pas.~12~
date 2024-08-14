@@ -49,8 +49,8 @@ end;
 
 procedure TfrmLogin.Login;
 begin
-  if chkRememberMe.Checked = False then
-    ClearTxtFile;
+  if chkRememberMe.Checked = True then
+
 
   with dbmMainDB do
   begin
@@ -130,14 +130,9 @@ var
   line: string;
   separatorPos: Integer;
 begin
-
-  if not FileExists('LoginInData.txt') then
-    Exit;
-
+  AssignFile(txt_file, 'LoginInData.txt');
+  Reset(txt_file);
   try
-    AssignFile(txt_file, 'LoginInData.txt');
-    Reset(txt_file);
-
     // Reads the user details from the txt file
     Readln(txt_file, line);
 
