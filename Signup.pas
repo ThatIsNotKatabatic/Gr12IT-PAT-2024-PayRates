@@ -41,104 +41,121 @@ implementation
 
 {$R *.dfm}
 
+// Procedure for handling the sign-up button click event
 procedure TfrmSignUp.btnSignUpClick(Sender: TObject);
 var
   firstName, surname, phoneNumber: string;
 begin
-  // check if verification code is correct
+  // Check if the entered verification code matches the expected code
   if edtValidationCode.Text <> verificationCode then
   begin
-    ShowMessage('Verification code is incorrect');
-    exit();
-  end;
-  // check Full Name
-  if pos(' ', edtFullName.Text) = -1 then
-  begin
-    ShowMessage('You did not enter a FULL NAME.');
-    exit();
-  end;
-  // check phone number
-  if length(edtPhoneNumber.Text) <> 10 then
-  begin
-    ShowMessage('Phone number is not valid');
-    exit();
-  end;
-  // check password
-  if length(edtPassword.Text) < 6 then
-  begin
-    ShowMessage('Password must be 6 characters or longer');
-    exit();
+    ShowMessage('Verification code is incorrect');  // Inform the user if the verification code is incorrect
+    exit();  // Exit the procedure if verification fails
   end;
 
+  // Check if a full name is provided (must contain a space)
+  if pos(' ', edtFullName.Text) = -1 then
+  begin
+    ShowMessage('You did not enter a FULL NAME.');  // Inform the user if the full name is not entered correctly
+    exit();  // Exit the procedure if the full name is missing
+  end;
+
+  // Check if the phone number is exactly 10 characters long
+  if length(edtPhoneNumber.Text) <> 10 then
+  begin
+    ShowMessage('Phone number is not valid');  // Inform the user if the phone number is not valid
+    exit();  // Exit the procedure if the phone number length is incorrect
+  end;
+
+  // Check if the password is at least 6 characters long
+  if length(edtPassword.Text) < 6 then
+  begin
+    ShowMessage('Password must be 6 characters or longer');  // Inform the user if the password is too short
+    exit();  // Exit the procedure if the password length is insufficient
+  end;
+
+  // Extract the first name and surname from the full name
   firstName := copy(edtFullName.Text, 1, pos(' ', edtFullName.Text) - 1);
   surname := copy(edtFullName.Text, pos(' ', edtFullName.Text) + 1);
   phoneNumber := edtPhoneNumber.Text;
-  delete(phoneNumber, 1, 1);
+  delete(phoneNumber, 1, 1);  // Remove the first character from the phone number
 
-  // commit to  database
+  // Add a new record to the tblOwners table in the database
   with dbmMainDB do
   begin
-    tblOwners.Append;
-    tblOwners['EmailAddress'] := edtEmailAddress.Text;
-    tblOwners['PhoneNumber'] := phoneNumber;
-    tblOwners['FirstName'] := firstName;
-    tblOwners['LastName'] := surname;
-    tblOwners['Password'] := edtPassword.Text;
-    tblOwners['OwnerID'] := copy(firstName, 1, 3) + copy
-      (surname, 1, 2) + inttostr(RandomRange(100, 999));
-    tblOwners.Post;
+    tblOwners.Append;  // Start appending a new record
+    tblOwners['EmailAddress'] := edtEmailAddress.Text;  // Set email address
+    tblOwners['PhoneNumber'] := phoneNumber;  // Set phone number
+    tblOwners['FirstName'] := firstName;  // Set first name
+    tblOwners['LastName'] := surname;  // Set last name
+    tblOwners['Password'] := edtPassword.Text;  // Set password
+    // Generate a unique OwnerID based on the first name, surname, and a random number
+    tblOwners['OwnerID'] := copy(firstName, 1, 3) + copy(surname, 1, 2) + inttostr(RandomRange(100, 999));
+    tblOwners.Post;  // Save the new record
   end;
-  ShowMessage('Sign Up successful. You may now login on the homepage.');
 
-  Hide;
-
+  ShowMessage('Sign Up successful. You may now login on the homepage.');  // Inform the user of a successful sign-up
+  Hide;  // Hide the sign-up form
 end;
 
+// Procedure for handling the validate button click event
 procedure TfrmSignUp.btnValidateClick(Sender: TObject);
 begin
-
+  // Check if the email address already exists in the database
   if searchDatabase(edtEmailAddress.Text) = true then
   begin
-    ShowMessage('Email address already exists. Please enter another one');
-    exit();
+    ShowMessage('Email address already exists. Please enter another one');  // Inform the user if the email address is already in use
+    exit();  // Exit the procedure if the email is found
   end;
+
+  // Generate a random verification code
   verificationCode := inttostr(RandomRange(10000, 99999));
+
+  // Create and configure a label to show the status of email sending
   lablle := TLabel.Create(frmSignUp);
   lablle.Parent := frmSignUp;
   lablle.Top := 165;
   lablle.Left := 16;
   lablle.Font := btnValidate.Font;
-  lablle.Caption := 'Sending...' ;
-  //objGlobals.sendEmail('Validation Code for PayRates App',
-  //  'validation code is: ' + verificationCode, edtEmailAddress.Text);
+  lablle.Caption := 'Sending...';
+
+  // Send an email with the verification code
+  objGlobals.sendEmail('Validation Code for PayRates App', 'validation code is: ' + verificationCode, edtEmailAddress.Text);
+
+  // Update the label to show that the email has been sent
   lablle.Caption := 'Sent';
   lablle.Font.Color := clGreen;
 end;
 
+// Procedure for initializing the form
 procedure TfrmSignUp.FormCreate(Sender: TObject);
 begin
+  // Create a new instance of the TGlobals object
   objGlobals := TGlobals.create;
+  // Set a default verification code
   verificationCode := '1742';
 end;
 
+// Function to search for an email address in the database
 function TfrmSignUp.searchDatabase(value: string): boolean;
 begin
-  // does a search through the database for a specific field and value
-  // returns true if a match was found
+  // Search through the database for the specified email address
+  // Return true if a match is found
   with dbmMainDB do
   begin
-    tblOwners.First;
+    tblOwners.First;  // Start at the beginning of the tblOwners table
     while Not tblOwners.EOF do
     begin
+      // Check if the email address matches the search value
       if tblOwners['EmailAddress'] = value then
       begin
-        Result := true;
-        exit();
+        Result := true;  // Email address found
+        exit();  // Exit the function
       end;
-      tblOwners.Next;
+      tblOwners.Next;  // Move to the next record
     end;
   end;
-  Result := False;
+  Result := False;  // Email address not found
 end;
 
 end.

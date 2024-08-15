@@ -171,7 +171,6 @@ procedure TfrmOwnerView.FormCreate(Sender: TObject);
 begin
   // Initialize global variables when the form is created
   objGlobals := TGlobals.Create;
-
 end;
 
 end.

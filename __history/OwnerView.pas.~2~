@@ -61,67 +61,57 @@ implementation
 
 procedure TfrmOwnerView.btnMakePayClick(Sender: TObject);
 begin
-  // Show the payment form and set the current owner for it
-  frmMakePayment.Show;
+  // make a payment here
+  frmMakePayment.show;
   frmMakePayment.setOwner(objOwner.getOwnerID);
 end;
 
 procedure TfrmOwnerView.btnPaymentHistoryClick(Sender: TObject);
 begin
-  // Update the UI to display payment history
-  lblTitle.Caption := 'Displaying Payment History'; // Set the title for the payment history
-  dbgrdPaymenHistory.Show; // Show the payment history grid
-  grpMonthlyDue.Hide; // Hide the monthly due group
-  grpStillToPay.Hide; // Hide the still to pay group
+  // show the payment history form
+  lblTitle.Caption := 'Displaying Payment History';
+  dbgrdPaymenHistory.Show;
+  grpMonthlyDue.Hide;
+  grpStillToPay.Hide;
 end;
 
 procedure TfrmOwnerView.btnViewMonthlyInstallmentsClick(Sender: TObject);
 begin
-  // Update the UI to display monthly installment rates
-  lblTitle.Caption := 'Displaying the monthly installment rates'; // Set the title for monthly installments
-  grpMonthlyDue.Show; // Show the monthly due group
-  grpStillToPay.Hide; // Hide the still to pay group
-  dbgrdPaymenHistory.Hide; // Hide the payment history grid
+  lblTitle.Caption := 'Displaying the monthly installment rates';
+  grpMonthlyDue.Show;
+  grpStillToPay.Hide;
+  dbgrdPaymenHistory.Hide;
 end;
 
 procedure TfrmOwnerView.btnViewTotalDueClick(Sender: TObject);
 begin
-  // Update the UI to display the total amount still due
-  lblTitle.Caption := 'Displaying what still needs to be paid'; // Set the title for total due
-  grpMonthlyDue.Hide; // Hide the monthly due group
-  grpStillToPay.Show; // Show the still to pay group
-  dbgrdPaymenHistory.Hide; // Hide the payment history grid
+  lblTitle.Caption := 'Displaying what still needs to be paid';
+  grpMonthlyDue.Hide;
+  grpStillToPay.Show;
+  dbgrdPaymenHistory.Hide;
 end;
 
 procedure TfrmOwnerView.createOwner(OwnerID: string);
 var
-  lablle : TLabel; // Temporary label for displaying property addresses and bills
-  panle : TPanel; // Temporary panel for displaying bill amounts
-  i, j : Integer; // Loop counters
-  adresses : TBuildingsArray; // Array of property addresses and bills
+ lablle : TLabel;
+ panle : TPanel;
+ i, j : Integer;
+ adresses : TBuildingsArray;
 begin
-  // Initialize the owner object with the given OwnerID
-  objOwner := TOwner.Create(OwnerID);
+  objOwner := TOwner.create(OwnerID);
+  pnlWater.Caption := floattostr(objOwner.getWaterBill);
+  pnlRefuse.Caption := floattostr(objOwner.getRefuseBill);
+  pnlElectricity.Caption := floattostr(objOwner.getElecBill);
 
-  // Update the UI with the owner's utility bills
-  pnlWater.Caption := FloatToStr(objOwner.getWaterBill);
-  pnlRefuse.Caption := FloatToStr(objOwner.getRefuseBill);
-  pnlElectricity.Caption := FloatToStr(objOwner.getElecBill);
+  objGlobals.setSQL('SELECT PropertyAddress, Type, PayedDate, AmountPaid FROM Services WHERE OwnerID = "' + objOwner.getOwnerID + '"');
 
-  // Set SQL query to retrieve payment history for the owner
-  objGlobals.setSQL('SELECT PropertyAddress, Type, PayedDate, AmountPaid FROM Services WHERE OwnerID = "' + objOwner.getOwnerID + '" ORDER BY PayedDate');
-
-  // Hide the groups that are not relevant initially
   grpStillToPay.Hide;
   grpMonthlyDue.Hide;
 
-  // Get the list of property addresses for the owner
   adresses := objOwner.getPropertyAddressList;
 
-  // Loop through each property address and create labels and panels for monthly due bills
-  for i := 0 to High(adresses) do
+  for i := 0 to High(objOwner.getPropertyAddressList) do
   begin
-    // Create a label for the property address
     lablle := TLabel.Create(grpMonthlyDue);
     lablle.Parent := grpMonthlyDue;
     lablle.Font := lblTotal.Font;
@@ -129,23 +119,22 @@ begin
     lablle.Left := lblTotal.Left;
     lablle.Caption := adresses[i].Address + ': ';
 
-    // Create panels for each type of bill (assuming 4 types of bills)
     for j := 0 to 3 do
     begin
       panle := TPanel.Create(grpMonthlyDue);
       panle.Parent := grpMonthlyDue;
       panle.Font := pnlWater.Font;
-      panle.Top := lblBreakdown.Top + 50 + (i * 80);
+      panle.Top := lblBreakdown.Top + 50  + (i * 80);
       panle.Left := pnlWater.Left + (j * 123);
       panle.Width := pnlWater.Width;
-      panle.Caption := 'R' + FloatToStr(adresses[i].Bills[j]); // Display the bill amount
+      panle.Caption := 'R' + FloatToStr(adresses[i].Bills[j]);
     end;
   end;
 
-  // Generate the 'still to pay' group box with the remaining amounts
-  for i := 0 to High(adresses) do
+
+  // generate everything for the 'still to pay groupbox'
+  for i := 0 to High(objOwner.getPropertyAddressList) do
   begin
-    // Create a label for the property address
     lablle := TLabel.Create(grpStillToPay);
     lablle.Parent := grpStillToPay;
     lablle.Font := lblTotal.Font;
@@ -153,24 +142,37 @@ begin
     lablle.Left := lblTotal.Left;
     lablle.Caption := adresses[i].Address + ': ';
 
-    // Create panels for the remaining amounts of each bill (total - paid)
     for j := 0 to 3 do
     begin
       panle := TPanel.Create(grpStillToPay);
       panle.Parent := grpStillToPay;
       panle.Font := pnlWater.Font;
-      panle.Top := lblBreakdown.Top + 50 + (i * 80);
+      panle.Top := lblBreakdown.Top + 50  + (i * 80);
       panle.Left := pnlWater.Left + (j * 123);
       panle.Width := pnlWater.Width;
-      panle.Caption := 'R' + FloatToStr(adresses[i].Bills[j] - adresses[i].Paid[j]); // Display remaining amount
+      panle.Caption :=  FloatToStr(adresses[i].Bills[j] - adresses[i].Paid[j]);
     end;
   end;
+
+  // soon
+  //panle.Caption :=  FloatToStr(adresses[i].Bills[j] - adresses[i].Paid[j]);
+
+//  redDue.Clear;
+//  for i := 0 to High(objOwner.getPropertyAddressList) do
+//  begin
+//    redDue.Lines.Add('Address: ' + objOwner.getPropertyAddressList[i].Address);
+//    redDue.Lines.Add('Water Due: ' + FloatToStr(objOwner.getPropertyAddressList[i].water_bill - objOwner.getPropertyAddressList[i].water_paid));
+//    redDue.Lines.Add('Electricity Due: ' + FloatToStr(objOwner.getPropertyAddressList[i].electricity_bill - objOwner.getPropertyAddressList[i].electricity_paid));
+//    redDue.Lines.Add('Refuse Due: ' + FloatToStr(objOwner.getPropertyAddressList[i].refuse_bill - objOwner.getPropertyAddressList[i].refuse_paid));
+//    redDue.Lines.Add('');
+//  end;
+
 end;
 
 procedure TfrmOwnerView.FormCreate(Sender: TObject);
 begin
-  // Initialize global variables when the form is created
-  objGlobals := TGlobals.Create;
+  objGlobals := TGlobals.create;
+
 
 end;
 

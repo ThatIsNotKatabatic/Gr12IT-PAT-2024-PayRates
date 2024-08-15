@@ -1,0 +1,170 @@
+unit OwnerView;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, pngimage, Owner, ServiceClass, Grids,
+  DBGrids, mainDB, MakePayment, Globals;
+
+type
+  TfrmOwnerView = class(TForm)
+    pnlHeading: TPanel;
+    btnMakePay: TButton;
+    grpMonthlyDue: TGroupBox;
+    lblTitle: TLabel;
+    pnlWater: TPanel;
+    pnlElectricity: TPanel;
+    pnlRefuse: TPanel;
+    Image1: TImage;
+    Image2: TImage;
+    Image3: TImage;
+    lblOptions: TLabel;
+    btnPaymentHistory: TButton;
+    imgLine: TImage;
+    imgLine2: TImage;
+    btnViewTotalDue: TButton;
+    btnViewMonthlyInstallments: TButton;
+    dbgrdPaymenHistory: TDBGrid;
+    lblTotal: TLabel;
+    lblBreakdown: TLabel;
+    grpStillToPay: TGroupBox;
+    img1: TImage;
+    img2: TImage;
+    img3: TImage;
+    lblTotal1: TLabel;
+    lblBreakdown1: TLabel;
+    pnlWater1: TPanel;
+    pnlElectricity1: TPanel;
+    pnlRefuse1: TPanel;
+    procedure btnMakePayClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnPaymentHistoryClick(Sender: TObject);
+    procedure btnViewMonthlyInstallmentsClick(Sender: TObject);
+    procedure btnViewTotalDueClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure createOwner(OwnerID: string);
+  end;
+
+var
+  frmOwnerView: TfrmOwnerView;
+  objOwner: TOwner;
+  objGlobals: TGlobals;
+
+implementation
+
+{$R *.dfm}
+{ TfrmOwnerView }
+
+procedure TfrmOwnerView.btnMakePayClick(Sender: TObject);
+begin
+  // Show the payment form and set the owner ID for the payment
+  frmMakePayment.Show; // Display the payment form
+  frmMakePayment.setOwner(objOwner.getOwnerID); // Set the current owner ID in the payment form
+end;
+
+procedure TfrmOwnerView.btnPaymentHistoryClick(Sender: TObject);
+begin
+  // Display the payment history and hide other sections
+  lblTitle.Caption := 'Displaying Payment History'; // Update the title label
+  dbgrdPaymenHistory.Show; // Show the payment history grid
+  grpMonthlyDue.Hide; // Hide the monthly due group
+  grpStillToPay.Hide; // Hide the still to pay group
+end;
+
+procedure TfrmOwnerView.btnViewMonthlyInstallmentsClick(Sender: TObject);
+begin
+  // Display the monthly installments and hide other sections
+  lblTitle.Caption := 'Displaying the monthly installment rates'; // Update the title label
+  grpMonthlyDue.Show; // Show the monthly due group
+  grpStillToPay.Hide; // Hide the still to pay group
+  dbgrdPaymenHistory.Hide; // Hide the payment history grid
+end;
+
+procedure TfrmOwnerView.btnViewTotalDueClick(Sender: TObject);
+begin
+  // Display the total amount still due and hide other sections
+  lblTitle.Caption := 'Displaying what still needs to be paid'; // Update the title label
+  grpMonthlyDue.Hide; // Hide the monthly due group
+  grpStillToPay.Show; // Show the still to pay group
+  dbgrdPaymenHistory.Hide; // Hide the payment history grid
+end;
+
+procedure TfrmOwnerView.createOwner(OwnerID: string);
+var
+  lablle : TLabel; // Label to display property addresses and bills
+  panle : TPanel; // Panel to display the bill amounts
+  i, j : Integer; // Loop counters
+  adresses : TBuildingsArray; // Array of property addresses and related bills
+begin
+  // Create an owner object and initialize its bills
+  objOwner := TOwner.Create(OwnerID); // Create an owner object with the given ID
+  pnlWater.Caption := FloatToStr(objOwner.getWaterBill); // Display the water bill
+  pnlRefuse.Caption := FloatToStr(objOwner.getRefuseBill); // Display the refuse bill
+  pnlElectricity.Caption := FloatToStr(objOwner.getElecBill); // Display the electricity bill
+
+  // Set SQL query to retrieve payment history for the owner
+  objGlobals.setSQL('SELECT PropertyAddress, Type, PayedDate, AmountPaid FROM Services WHERE OwnerID = "' + objOwner.getOwnerID + '" ORDER BY PaidDate');
+
+  // Hide the groups that are not currently needed
+  grpStillToPay.Hide; // Hide the still to pay group
+  grpMonthlyDue.Hide; // Hide the monthly due group
+
+  // Retrieve the list of property addresses
+  adresses := objOwner.getPropertyAddressList;
+
+  // Generate labels and panels for the monthly installments
+  for i := 0 to High(adresses) do
+  begin
+    lablle := TLabel.Create(grpMonthlyDue); // Create a new label
+    lablle.Parent := grpMonthlyDue; // Set the label's parent to the monthly due group
+    lablle.Font := lblTotal.Font; // Use the same font as lblTotal
+    lablle.Top := lblBreakdown.Top + 50 + (i * 80); // Position the label vertically
+    lablle.Left := lblTotal.Left; // Position the label horizontally
+    lablle.Caption := adresses[i].Address + ': '; // Set the address as the label caption
+
+    for j := 0 to 3 do
+    begin
+      panle := TPanel.Create(grpMonthlyDue); // Create a new panel
+      panle.Parent := grpMonthlyDue; // Set the panel's parent to the monthly due group
+      panle.Font := pnlWater.Font; // Use the same font as pnlWater
+      panle.Top := lblBreakdown.Top + 50  + (i * 80); // Position the panel vertically
+      panle.Left := pnlWater.Left + (j * 123); // Position the panel horizontally
+      panle.Width := pnlWater.Width; // Set the width of the panel
+      panle.Caption := 'R' + FloatToStr(adresses[i].Bills[j]); // Display the bill amount
+    end;
+  end;
+
+  // Generate labels and panels for the still to pay amounts
+  for i := 0 to High(adresses) do
+  begin
+    lablle := TLabel.Create(grpStillToPay); // Create a new label
+    lablle.Parent := grpStillToPay; // Set the label's parent to the still to pay group
+    lablle.Font := lblTotal.Font; // Use the same font as lblTotal
+    lablle.Top := lblBreakdown.Top + 50 + (i * 80); // Position the label vertically
+    lablle.Left := lblTotal.Left; // Position the label horizontally
+    lablle.Caption := adresses[i].Address + ': '; // Set the address as the label caption
+
+    for j := 0 to 3 do
+    begin
+      panle := TPanel.Create(grpStillToPay); // Create a new panel
+      panle.Parent := grpStillToPay; // Set the panel's parent to the still to pay group
+      panle.Font := pnlWater.Font; // Use the same font as pnlWater
+      panle.Top := lblBreakdown.Top + 50  + (i * 80); // Position the panel vertically
+      panle.Left := pnlWater.Left + (j * 123); // Position the panel horizontally
+      panle.Width := pnlWater.Width; // Set the width of the panel
+      panle.Caption := 'R' + FloatToStr(adresses[i].Bills[j] - adresses[i].Paid[j]); // Display the remaining amount to be paid
+    end;
+  end;
+end;
+
+procedure TfrmOwnerView.FormCreate(Sender: TObject);
+begin
+  // Initialize the global settings or configurations
+  objGlobals := TGlobals.Create; // Create a new global settings object
+end;
+
+end.

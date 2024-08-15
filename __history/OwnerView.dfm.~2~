@@ -1242,19 +1242,16 @@ object frmOwnerView: TfrmOwnerView
       item
         Expanded = False
         FieldName = 'MonthlyWaterBill'
-        Width = 120
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'MonthlyElectricityBill'
-        Width = 120
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'MonthlyRefuseBill'
-        Width = 120
         Visible = True
       end>
   end

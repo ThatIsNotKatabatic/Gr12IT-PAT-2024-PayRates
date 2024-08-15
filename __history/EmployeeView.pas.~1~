@@ -32,71 +32,54 @@ implementation
 
 {$R *.dfm}
 
-// Procedure for handling the click event of the search button
 procedure TfrmEmployeeView.btnSearchClick(Sender: TObject);
 var
-  search_type, table: string;  // Variables to store the search type and table name
-  objGlobals: TGlobals;        // Object used to interact with global settings or SQL queries
+  search_type, table: string;
+  objGlobals: TGlobals;
 begin
-  // Check if a search type has been selected
   if cmbSearchType.ItemIndex = -1 then
   begin
-    ShowMessage('please select a search type');  // Show a message if no search type is selected
-    Exit;  // Exit the procedure if no search type is selected
+    ShowMessage('please select a search type');
+    Exit;
   end;
-
-  // Check if a table has been selected
   if cmbTableSelect.ItemIndex = -1 then
   begin
-    ShowMessage('please select a table to search through');  // Show a message if no table is selected
-    Exit;  // Exit the procedure if no table is selected
+    ShowMessage('please select a table to search through');
+    Exit;
   end;
 
-  // Retrieve the selected search type and table
   search_type := cmbSearchType.Text;
   table := cmbTableSelect.Text;
-
-  // Create a new instance of the TGlobals object
   objGlobals := TGlobals.create;
 
-  // Set the SQL query to search in the selected table based on the selected search type
   objGlobals.setSQL('SELECT * from ' + table + ' WHERE ' + search_type +
       ' LIKE "%' + edtSearchBar.Text + '%"');
+
 end;
 
-// Procedure for handling changes in the table selection combo box
 procedure TfrmEmployeeView.cmbTableSelectChange(Sender: TObject);
 var
-  i: Integer;  // Loop index
+  i: Integer;
 begin
-  // Clear the items in the search type combo box
-  cmbSearchType.Items.Clear;
-
-  // Populate the search type combo box based on the selected table
+cmbSearchType.Items.Clear;
   for i := 0 to 4 do
   begin
-    cmbSearchType.Items.Add(arrTypeOptions[cmbTableSelect.ItemIndex, i])
+  cmbSearchType.Items.Add(arrTypeOptions[cmbTableSelect.ItemIndex, i])
   end;
 end;
 
-// Procedure for handling changes in the search bar text
 procedure TfrmEmployeeView.edtSearchBarChange(Sender: TObject);
 begin
-  // Check if a search type and table have been selected
-  if cmbSearchType.ItemIndex = -1 then
-    Exit;  // Exit if no search type is selected
+if cmbSearchType.ItemIndex = -1 then
+    Exit;
+if cmbTableSelect.ItemIndex = -1 then
+    Exit;
 
-  if cmbTableSelect.ItemIndex = -1 then
-    Exit;  // Exit if no table is selected
-
-  // Trigger the search button click event to perform the search
   btnSearchClick(Self);
 end;
 
-// Procedure for initializing the form
 procedure TfrmEmployeeView.FormCreate(Sender: TObject);
 begin
-  // Initialize the array of search type options for each table
   arrTypeOptions[0, 0] := 'Address';
   arrTypeOptions[0, 1] := 'Owner';
 
@@ -111,10 +94,10 @@ begin
   arrTypeOptions[2, 3] := 'LastName';
   arrTypeOptions[2, 4] := 'PhoneNumber';
 
-  arrTypeOptions[3, 0] := 'EntryID';
-  arrTypeOptions[3, 1] := 'OwnerID';
-  arrTypeOptions[3, 2] := 'PropertyAddress';
-  arrTypeOptions[3, 3] := 'Type';
+  arrTypeOptions[3,0] := 'EntryID';
+    arrTypeOptions[3,1] := 'OwnerID';
+      arrTypeOptions[3,2] := 'PropertyAddress';
+  arrTypeOptions[3,3] := 'Type';
 end;
 
 end.
