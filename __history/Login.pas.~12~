@@ -48,11 +48,7 @@ begin
   Login;
 
   // validate the email
-  if objValidation.isValidEmail(edtLoginEmail.Text) = false then
-  begin
-    ShowMessage('You have not entered a valid email');
-    Exit;
-  end;
+
 end;
 
 procedure TfrmLogin.Login;
@@ -60,8 +56,11 @@ begin
   // Handle the login process
   if not chkRememberMe.Checked then
     ClearTxtFile; // Clear saved login details if "Remember Me" is not checked
-
-
+  if objValidation.isValidEmail(edtLoginEmail.Text) = false then
+  begin
+    ShowMessage('You have not entered a valid email');
+    Exit;
+  end;
 
   with dbmMainDB do
   begin

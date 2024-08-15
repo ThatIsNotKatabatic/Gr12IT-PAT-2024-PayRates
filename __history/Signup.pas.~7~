@@ -48,19 +48,6 @@ procedure TfrmSignUp.btnSignUpClick(Sender: TObject);
 var
   firstName, surname, phoneNumber: string;
 begin
-// this validates that the phone number only contains numbers
-  if objValidation.isDigitOnly(edtPhoneNumber.Text)= false then
-  begin
-    ShowMessage('Phone Number Contains non-number characters');
-    Exit;
-  end;
-
-  // makes sure that the phone number has 10 digits ( this includes the zero at the beginning)
-  if length(edtPhoneNumber.Text) <> 10 then
-  begin
-    ShowMessage('Not a real phone number');
-    Exit;
-  end;
   // Check if the entered verification code matches the expected code
   if edtValidationCode.Text <> verificationCode then
   begin
@@ -118,6 +105,12 @@ procedure TfrmSignUp.btnValidateClick(Sender: TObject);
 begin
 
   if objValidation.isValidEmail(edtEmailAddress.Text) = false then
+  begin
+    ShowMessage('You have not entered a valid email');
+    Exit;
+  end;
+
+  if objValidation.isDigitOnly(edtPhoneNumber.Text)= false then
   begin
     ShowMessage('You have not entered a valid email');
     Exit;

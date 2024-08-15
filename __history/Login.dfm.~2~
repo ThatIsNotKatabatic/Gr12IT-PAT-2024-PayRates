@@ -76,7 +76,7 @@ object frmLogin: TfrmLogin
     Top = 274
     Width = 218
     Height = 33
-    Caption = 'Login'
+    Caption = 'LOGIN'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -16

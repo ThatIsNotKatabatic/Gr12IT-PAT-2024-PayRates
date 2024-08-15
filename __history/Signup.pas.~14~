@@ -54,8 +54,6 @@ begin
     ShowMessage('Phone Number Contains non-number characters');
     Exit;
   end;
-
-  // makes sure that the phone number has 10 digits ( this includes the zero at the beginning)
   if length(edtPhoneNumber.Text) <> 10 then
   begin
     ShowMessage('Not a real phone number');

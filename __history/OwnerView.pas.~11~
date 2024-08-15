@@ -105,9 +105,9 @@ begin
   objOwner := TOwner.Create(OwnerID);
 
   // Update the UI with the owner's utility bills
-  pnlWater.Caption := 'R' + FloatToStr(objOwner.getWaterBill);
-  pnlRefuse.Caption := 'R' + FloatToStr(objOwner.getRefuseBill);
-  pnlElectricity.Caption := 'R' + FloatToStr(objOwner.getElecBill);
+  pnlWater.Caption := FloatToStr(objOwner.getWaterBill);
+  pnlRefuse.Caption := FloatToStr(objOwner.getRefuseBill);
+  pnlElectricity.Caption := FloatToStr(objOwner.getElecBill);
 
   // Set SQL query to retrieve payment history for the owner
   objGlobals.setSQL('SELECT PropertyAddress, Type, PayedDate, AmountPaid FROM Services WHERE OwnerID = "' + objOwner.getOwnerID + '" ORDER BY PayedDate');

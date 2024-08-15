@@ -31,6 +31,7 @@
     <Transaction>2024/08/14 16:41:38.704.dfm,E:\Delphi\IT PAT Gr 12 PayRates\Unit1.dfm=E:\Delphi\IT PAT Gr 12 PayRates\PaymentHistory.dfm</Transaction>
     <Transaction>2024/08/14 17:05:24.387.pas,E:\Delphi\IT PAT Gr 12 PayRates\PaymentHistory.pas=</Transaction>
     <Transaction>2024/08/14 17:05:24.387.dfm,E:\Delphi\IT PAT Gr 12 PayRates\PaymentHistory.dfm=</Transaction>
+    <Transaction>2024/08/15 11:46:03.724.pas,C:\Users\jonle24\Desktop\Validation_U.pas=</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="EmployeeView.pas"/>
@@ -48,5 +49,6 @@
     <File Path="Signup.pas"/>
     <File Path="Signup.dfm"/>
     <File Path="building.pas"/>
+    <File Path="Validation_U.pas"/>
   </ProjectSortOrder>
 </BorlandProject>

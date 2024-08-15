@@ -87,6 +87,7 @@ begin
   dbmMainDB.UserQuery.Edit;
    dbmMainDB.UserQuery[Column.DisplayName] := InputBox('Edit', 'Edit ' + Column.DisplayName, '');
    dbmMainDB.UserQuery.Post;
+
 end;
 
 //Procedure for handling changes in the search bar text

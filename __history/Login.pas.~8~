@@ -36,7 +36,6 @@ type
 var
   frmLogin: TfrmLogin;
   objGlobals: TGlobals;
-  objValidation : DataValidation;
 
 implementation
 
@@ -48,11 +47,7 @@ begin
   Login;
 
   // validate the email
-  if objValidation.isValidEmail(edtLoginEmail.Text) = false then
-  begin
-    ShowMessage('You have not entered a valid email');
-    Exit;
-  end;
+
 end;
 
 procedure TfrmLogin.Login;
@@ -60,8 +55,6 @@ begin
   // Handle the login process
   if not chkRememberMe.Checked then
     ClearTxtFile; // Clear saved login details if "Remember Me" is not checked
-
-
 
   with dbmMainDB do
   begin
@@ -195,7 +188,6 @@ begin
   // Initialize global settings and load saved login details
   objGlobals := TGlobals.Create; // Create a new global settings object
   LoadFromTxtFile; // Load saved login details if they exist
-  objValidation := DataValidation.create;
 end;
 
 

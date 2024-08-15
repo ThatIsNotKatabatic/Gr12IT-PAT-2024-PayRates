@@ -83,10 +83,16 @@ end;
 
 procedure TfrmEmployeeView.dbgOutCellClick(Column: TColumn);
 begin
-// this is code to edit the database entry that you have clicked on
   dbmMainDB.UserQuery.Edit;
    dbmMainDB.UserQuery[Column.DisplayName] := InputBox('Edit', 'Edit ' + Column.DisplayName, '');
    dbmMainDB.UserQuery.Post;
+//case cmbTableSelect.Text[1] of
+//  'S':  dbmMainDB.UserQuery[Column.DisplayName] := InputBox('Edit', 'Edit ' + Column.DisplayName, '');
+//  'B' : ShowMessage('This is a building');
+//  'O' : ShowMessage('This is a owner');
+//  'E' : ShowMessage('This is an employee')
+//end;
+
 end;
 
 //Procedure for handling changes in the search bar text

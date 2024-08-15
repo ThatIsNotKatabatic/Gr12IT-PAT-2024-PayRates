@@ -27,7 +27,6 @@ object frmOwnerView: TfrmOwnerView
     Font.Style = []
     GlowSize = 10
     ParentFont = False
-    OnClick = lblTitleClick
   end
   object lblOptions: TLabel
     Left = 8

@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, StdCtrls, ShellAPI, Globals, Signup, MainDB,
-  EmployeeView, OwnerView, ADODB, Validation_U;
+  EmployeeView, OwnerView, ADODB;
 
 type
   TfrmLogin = class(TForm)
@@ -36,7 +36,6 @@ type
 var
   frmLogin: TfrmLogin;
   objGlobals: TGlobals;
-  objValidation : DataValidation;
 
 implementation
 
@@ -46,13 +45,6 @@ procedure TfrmLogin.btnLoginClick(Sender: TObject);
 begin
   // Trigger the login process when the login button is clicked
   Login;
-
-  // validate the email
-  if objValidation.isValidEmail(edtLoginEmail.Text) = false then
-  begin
-    ShowMessage('You have not entered a valid email');
-    Exit;
-  end;
 end;
 
 procedure TfrmLogin.Login;
@@ -60,8 +52,6 @@ begin
   // Handle the login process
   if not chkRememberMe.Checked then
     ClearTxtFile; // Clear saved login details if "Remember Me" is not checked
-
-
 
   with dbmMainDB do
   begin
@@ -195,7 +185,6 @@ begin
   // Initialize global settings and load saved login details
   objGlobals := TGlobals.Create; // Create a new global settings object
   LoadFromTxtFile; // Load saved login details if they exist
-  objValidation := DataValidation.create;
 end;
 
 

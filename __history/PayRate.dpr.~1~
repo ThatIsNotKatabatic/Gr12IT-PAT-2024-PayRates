@@ -10,8 +10,7 @@ uses
   MakePayment in 'MakePayment.pas' {frmMakePayment},
   mainDB in 'mainDB.pas' {dbmMainDB: TDataModule},
   Owner in 'Owner.pas',
-  building in 'building.pas',
-  Validation_U in 'Validation_U.pas';
+  building in 'building.pas';
 
 {$R *.res}
 
@@ -23,7 +22,7 @@ begin
   Application.CreateForm(TfrmSignUp, frmSignUp);
   Application.CreateForm(TfrmMakePayment, frmMakePayment);
   Application.CreateForm(TdbmMainDB, dbmMainDB);
-  //Application.CreateForm(TdbmMainDB, main_DB);
+  //Application.CreateForm(TmainDB, main_DB);
   Application.CreateForm(TfrmEmployeeView, frmEmployeeView);
   Application.CreateForm(TfrmOwnerView, frmOwnerView);
   Application.Run;

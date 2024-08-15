@@ -67,7 +67,6 @@ object frmEmployeeView: TfrmEmployeeView
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
-    OnCellClick = dbgOutCellClick
   end
   object cmbSearchType: TComboBox
     Left = 365
